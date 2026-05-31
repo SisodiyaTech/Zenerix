@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --electric-blue: #00A3FF;
+    --neon-blue: #0066FF;
+    --deep-navy: #1A1F2B;
+    --charcoal-black: #0D0F14;
+    --silver: #C7CCD6;
+    --white: #FFFFFF;
+    
+    --glass-bg: rgba(26, 31, 43, 0.4);
+    --glass-border: rgba(199, 204, 214, 0.1);
+    --neon-glow: 0 0 20px rgba(0, 163, 255, 0.4), 0 0 40px rgba(0, 102, 255, 0.2);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background-color: var(--charcoal-black);
+    color: var(--silver);
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+    position: relative;
+  }
+}
+
+/* Custom CSS that doesn't easily translate to pure Tailwind classes */
+
+.text-gradient {
+  background: linear-gradient(135deg, #0066FF, #00A3FF);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+}
+
+/* Custom fade-in-up animations */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 0.8s ease forwards;
+}
+
+.delay-1 {
+  animation-delay: 0.2s;
+}
+
+.delay-2 {
+  animation-delay: 0.4s;
+}
+
+.delay-3 {
+  animation-delay: 0.6s;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Reveal elements */
+.reveal {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.reveal.reveal-active {
+  opacity: 1;
+  transform: translateY(0);
+}
