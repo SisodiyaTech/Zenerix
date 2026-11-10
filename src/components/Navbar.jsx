@@ -1,96 +1,134 @@
-import { useState, useEffect } from 'react';
+// ============================================================
+// Navbar Component — Emerald Brand Edition
+// ============================================================
+import { useEffect, useRef, useState } from 'react';
+import gsap from 'gsap';
+import './Navbar.css';
+
+const navLinks = [
+  { label: 'Work', href: '#work' },
+  { label: 'Services', href: '#services' },
+  { label: 'Process', href: '#process' },
+  { label: 'About', href: '#about' },
+  { label: 'Contact', href: '#contact' },
+];
 
 export default function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navRef = useRef(null);
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const lastScrollY = useRef(0);
+  const hidden = useRef(false);
 
   useEffect(() => {
+    // Entrance animation
+    gsap.fromTo(navRef.current,
+      { y: -20, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1, ease: 'power3.out', delay: 1.8 }
+    );
+
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
+      const y = window.scrollY;
+      setScrolled(y > 50);
+
+      // Hide on scroll down, show on scroll up
+      if (y > lastScrollY.current && y > 200 && !hidden.current) {
+        gsap.to(navRef.current, { y: '-100%', duration: 0.4, ease: 'power2.inOut' });
+        hidden.current = true;
+      } else if (y < lastScrollY.current && hidden.current) {
+        gsap.to(navRef.current, { y: '0%', duration: 0.4, ease: 'power2.inOut' });
+        hidden.current = false;
       }
+
+      lastScrollY.current = y;
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
-    { name: 'Home', href: '#home' },
-    { name: 'Services', href: '#services' },
-    { name: 'Portfolio', href: '#portfolio' },
-    { name: 'About', href: '#about' },
-    { name: 'Contact', href: '#contact' }
-  ];
-
-  const handleLinkClick = (e, href) => {
+  const handleNavClick = (e, href) => {
     e.preventDefault();
-    setIsMobileMenuOpen(false);
-    
-    const targetElement = document.querySelector(href);
-    if (targetElement) {
-      targetElement.scrollIntoView({ behavior: 'smooth' });
+    setMenuOpen(false);
+    const target = document.querySelector(href);
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
   return (
-    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-      isScrolled 
-        ? 'py-4 bg-charcoal-black/80 backdrop-blur-md border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.5)]' 
-        : 'py-6 bg-transparent'
-    }`} id="navbar">
-      <div className="max-w-[1280px] mx-auto px-8 flex justify-between items-center">
-        <a href="#home" onClick={(e) => handleLinkClick(e, '#home')} className="flex items-center gap-3 no-underline">
-          <img 
-            src="/assets/zenerix text logo.png" 
-            alt="Zenerix Logo" 
-            className="h-10 w-auto"
+    <>
+      <nav
+        ref={navRef}
+        className={`navbar ${scrolled ? 'scrolled' : ''}`}
+        style={{ opacity: 0 }}
+      >
+        <a href="#hero" className="navbar-brand-link" onClick={(e) => handleNavClick(e, '#hero')}>
+          <img
+            src="/brand/logo-mark.png"
+            alt="Zenerix Mark"
+            className="navbar-logo-mark"
+          />
+          <img
+            src="/brand/logo-wordmark.png"
+            alt="Zenerix"
+            className="navbar-logo-wordmark"
           />
         </a>
 
-        {/* Desktop Navigation */}
-        <ul className="hidden md:flex list-none gap-8">
-          {navLinks.map((link) => (
-            <li key={link.name}>
-              <a 
-                href={link.href}
-                onClick={(e) => handleLinkClick(e, link.href)}
-                className="text-silver hover:text-white uppercase tracking-[1px] text-[0.9rem] font-medium transition-all duration-300 relative py-1
-                  after:content-[''] after:absolute after:bottom-[-5px] after:left-0 after:w-0 after:h-[2px] after:bg-electric-blue after:transition-all after:duration-300 hover:after:w-full hover:after:shadow-[0_0_8px_#00A3FF]"
-              >
-                {link.name}
+        <ul className="navbar-nav">
+          {navLinks.map(link => (
+            <li key={link.label}>
+              <a href={link.href} onClick={(e) => handleNavClick(e, link.href)}>
+                {link.label}
               </a>
             </li>
           ))}
         </ul>
 
-        {/* Mobile Toggle Button */}
-        <div 
-          className="md:hidden text-white text-2xl cursor-pointer select-none"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        <a
+          href="#contact"
+          className="navbar-cta"
+          onClick={(e) => handleNavClick(e, '#contact')}
         >
-          <i className={`ph ${isMobileMenuOpen ? 'ph-x' : 'ph-list'}`}></i>
-        </div>
-      </div>
+          Let's Talk
+        </a>
 
-      {/* Mobile Navigation Drawer */}
-      {isMobileMenuOpen && (
-        <ul className="flex md:hidden flex-col absolute top-full left-0 w-full bg-charcoal-black/95 backdrop-blur-md p-8 border-b border-white/10 gap-6 list-none shadow-[0_10px_30px_rgba(0,0,0,0.5)] animate-fadeIn">
-          {navLinks.map((link) => (
-            <li key={link.name} className="border-b border-white/5 pb-2 last:border-0 last:pb-0">
-              <a 
-                href={link.href}
-                onClick={(e) => handleLinkClick(e, link.href)}
-                className="text-silver hover:text-white uppercase tracking-[1px] text-[0.9rem] font-medium transition-all duration-300 block"
-              >
-                {link.name}
-              </a>
-            </li>
-          ))}
-        </ul>
-      )}
-    </nav>
+        <button
+          className={`navbar-toggle ${menuOpen ? 'open' : ''}`}
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle menu"
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+      </nav>
+
+      {/* Mobile Menu */}
+      <div className={`mobile-menu ${menuOpen ? 'open' : ''}`}>
+        <img
+          src="/brand/logo-mark.png"
+          alt="Zenerix"
+          className="mobile-menu-mark"
+        />
+        {navLinks.map(link => (
+          <a
+            key={link.label}
+            href={link.href}
+            onClick={(e) => handleNavClick(e, link.href)}
+          >
+            {link.label}
+          </a>
+        ))}
+        <a
+          href="#contact"
+          className="mobile-cta"
+          onClick={(e) => handleNavClick(e, '#contact')}
+        >
+          Let's Talk
+        </a>
+      </div>
+    </>
   );
 }

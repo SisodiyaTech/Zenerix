@@ -1,0 +1,174 @@
+/* ============================================================
+   Horizontal Scroll Gallery — Featured Works Cinematic Strip
+   ============================================================ */
+
+.hscroll-section {
+  padding: clamp(5rem, 10vh, 8rem) 0;
+  border-top: 1px solid var(--line);
+  overflow: hidden;
+}
+
+.hscroll-header {
+  margin-bottom: clamp(2rem, 4vh, 3.5rem);
+  padding: 0 clamp(1.5rem, 5vw, 5rem);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.hscroll-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.hscroll-title em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.hscroll-hint {
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.hscroll-track-wrap {
+  overflow-x: auto;
+  overflow-y: visible;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-bottom: 1rem;
+  cursor: grab;
+}
+
+.hscroll-track-wrap:active {
+  cursor: grabbing;
+}
+
+.hscroll-track-wrap::-webkit-scrollbar {
+  display: none;
+}
+
+.hscroll-track {
+  display: flex;
+  gap: 1.5rem;
+  padding: 0 clamp(1.5rem, 5vw, 5rem);
+  width: max-content;
+}
+
+.hscroll-card {
+  flex-shrink: 0;
+  width: 400px;
+  position: relative;
+  border-radius: 2px;
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--surface);
+}
+
+.hscroll-card.tall {
+  width: 300px;
+}
+
+.hscroll-card-thumb {
+  aspect-ratio: 16/9;
+  position: relative;
+  overflow: hidden;
+}
+
+.hscroll-card.tall .hscroll-card-thumb {
+  aspect-ratio: 9/16;
+}
+
+.hscroll-card-bg {
+  position: absolute;
+  inset: 0;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hscroll-card:hover .hscroll-card-bg {
+  transform: scale(1.04);
+}
+
+.hscroll-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(11,11,12,0.9) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.hscroll-card:hover .hscroll-card-overlay {
+  opacity: 1;
+}
+
+.hscroll-card-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.2rem;
+  transform: translateY(10px);
+  opacity: 0;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s;
+}
+
+.hscroll-card:hover .hscroll-card-info {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.hscroll-card-tag {
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.4rem;
+}
+
+.hscroll-card-title {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 300;
+  color: var(--text);
+}
+
+/* Play icon */
+.hscroll-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s, border-color 0.3s;
+  backdrop-filter: blur(4px);
+}
+
+.hscroll-card:hover .hscroll-play {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+@media (max-width: 640px) {
+  .hscroll-card { width: 280px; }
+  .hscroll-card.tall { width: 200px; }
+}
+

@@ -1,0 +1,125 @@
+/* ============================================================
+   FAQ Section
+   ============================================================ */
+
+.faq-section {
+  padding: clamp(5rem, 10vh, 8rem) 0;
+  border-top: 1px solid var(--line);
+}
+
+.faq-inner {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 6rem;
+  align-items: start;
+}
+
+.faq-left {
+  position: sticky;
+  top: 7rem;
+}
+
+.faq-left-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+}
+
+.faq-left-title em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.faq-left-desc {
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+/* FAQ Items */
+.faq-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--line);
+  overflow: hidden;
+}
+
+.faq-question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem 0;
+  cursor: pointer;
+}
+
+.faq-q-text {
+  font-family: var(--font-serif);
+  font-size: clamp(1rem, 1.5vw, 1.3rem);
+  font-weight: 300;
+  color: var(--text);
+  line-height: 1.3;
+  transition: color 0.3s;
+}
+
+.faq-item.open .faq-q-text {
+  color: var(--accent);
+}
+
+.faq-icon {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s, color 0.3s;
+}
+
+.faq-item.open .faq-icon {
+  transform: rotate(45deg);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.faq-answer {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.faq-item.open .faq-answer {
+  grid-template-rows: 1fr;
+}
+
+.faq-answer-inner {
+  overflow: hidden;
+}
+
+.faq-a-text {
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.7;
+  padding-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .faq-inner {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .faq-left {
+    position: static;
+  }
+}
+

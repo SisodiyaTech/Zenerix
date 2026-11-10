@@ -1,51 +1,178 @@
+// ============================================================
+// Hero Section Component — Emerald Edition
+// ============================================================
+import { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { Play } from 'lucide-react';
+import './Hero.css';
 
+export default function Hero({ onWatchShowreel }) {
+  const heroRef = useRef(null);
+  const eyebrowRef = useRef(null);
+  const line1Ref = useRef(null);
+  const line2Ref = useRef(null);
+  const subRef = useRef(null);
+  const actionsRef = useRef(null);
+  const scrollRef = useRef(null);
 
-export default function Hero() {
-  const handleScroll = (e, targetId) => {
-    e.preventDefault();
-    const targetElement = document.querySelector(targetId);
-    if (targetElement) {
-      targetElement.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  useEffect(() => {
+    const tl = gsap.timeline({ delay: 1.6 });
+
+    tl.to(eyebrowRef.current, {
+      opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
+    })
+    .to([line1Ref.current, line2Ref.current].map(el => el?.querySelector('span')), {
+      y: 0, duration: 1.1, stagger: 0.12, ease: 'power4.out',
+    }, '-=0.4')
+    .to(subRef.current?.querySelector('span'), {
+      y: 0, duration: 0.8, ease: 'power3.out',
+    }, '-=0.6')
+    .to(actionsRef.current, {
+      opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
+    }, '-=0.5')
+    .to(scrollRef.current, {
+      opacity: 1, duration: 0.6, ease: 'power2.out',
+    }, '-=0.3');
+
+    return () => tl.kill();
+  }, []);
 
   return (
-    <section id="home" className="min-h-screen flex items-center relative pt-[80px] overflow-hidden">
-      <div className="max-w-[1280px] mx-auto px-8 w-full hero-content z-10 relative">
-        <div className="badge fade-in-up inline-block px-4 py-2 bg-electric-blue/10 border border-electric-blue/30 rounded-full text-electric-blue text-sm font-semibold uppercase tracking-wider mb-6 shadow-[inset_0_0_10px_rgba(0,163,255,0.1)]">
-          Welcome to the Future
+    <section className="hero" id="hero" ref={heroRef}>
+      {/* Background */}
+      <div className="hero-bg">
+        {/* Base dark canvas */}
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: 'radial-gradient(ellipse at 40% 70%, #0C4137 0%, #070A09 65%)',
+        }} />
+
+        {/* Ambient brand visual */}
+        <div className="hero-poster-ambient" />
+
+        {/* Emerald flowing light particles */}
+        <HeroParticles />
+        <div className="hero-bg-gradient" />
+        <div className="hero-noise" />
+      </div>
+
+      {/* Content */}
+      <div className="hero-content">
+        <div className="hero-eyebrow" ref={eyebrowRef} style={{ opacity: 0, transform: 'translateY(15px)' }}>
+          <div className="hero-eyebrow-badge">
+            <span className="hero-eyebrow-dot" />
+            <span>Video Editing Agency — Production & Post</span>
+          </div>
         </div>
-        <h1 className="fade-in-up delay-1 text-white text-5xl md:text-7xl font-bold tracking-tight mb-6 leading-[1.1] font-heading">
-          Building Brands That<br />
-          <span className="text-gradient">Capture Attention</span>
+
+        <h1 className="hero-headline">
+          <div className="line" ref={line1Ref}>
+            <span>We Cut.</span>
+          </div>
+          <div className="line" ref={line2Ref}>
+            <span>You <em>Captivate.</em></span>
+          </div>
         </h1>
-        <p className="fade-in-up delay-2 text-silver text-lg md:text-xl max-w-[600px] mb-10">
-          We merge cutting-edge design with strategic growth to elevate your brand.
-          Specializing in high-impact content creation, branding, and digital scaling.
+
+        <p className="hero-sub" ref={subRef}>
+          <span>
+            Video editing for brands and creators who want every second to count.
+            From viral short-form reels to high-converting commercial ads.
+          </span>
         </p>
-        <div className="hero-ctas flex flex-wrap gap-4 fade-in-up delay-3">
-          <a 
-            href="#contact" 
-            onClick={(e) => handleScroll(e, '#contact')}
-            className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded font-heading font-semibold text-base transition-all duration-300 cursor-pointer border-none bg-primary-gradient text-white shadow-[0_4px_15px_rgba(0,102,255,0.3)] hover:shadow-neon-glow hover:-translate-y-0.5"
+
+        <div className="hero-actions" ref={actionsRef} style={{ opacity: 0, transform: 'translateY(15px)' }}>
+          <button
+            className="btn-primary"
+            onClick={onWatchShowreel}
+            data-cursor="play"
           >
-            Get Started <i className="ph ph-arrow-right"></i>
-          </a>
-          <a 
-            href="#portfolio" 
-            onClick={(e) => handleScroll(e, '#portfolio')}
-            className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded font-heading font-semibold text-base transition-all duration-300 cursor-pointer bg-white/5 text-white border border-white/10 backdrop-blur-md hover:bg-white/10 hover:border-electric-blue hover:-translate-y-0.5"
-          >
-            View Work <i className="ph ph-play-circle text-lg"></i>
+            <Play size={14} fill="currentColor" strokeWidth={0} />
+            Watch Showreel
+          </button>
+          <a href="#work" className="btn-secondary">
+            Explore Portfolio
           </a>
         </div>
       </div>
-      
-      {/* Decorative Elements */}
-      <div className="absolute right-[5%] top-1/2 -translate-y-1/2 w-[500px] h-[500px] z-0 pointer-events-none hidden lg:block">
-        <div className="absolute bg-surface-gradient border border-white/10 backdrop-blur-md rounded-[30%_70%_70%_30%_/_30%_30%_70%_70%] w-[400px] h-[400px] top-[50px] right-[50px] animate-morph-slow-1 shadow-[0_0_40px_rgba(0,163,255,0.1)]"></div>
-        <div className="absolute bg-neon-blue/10 border border-neon-blue/20 backdrop-blur-md rounded-[30%_70%_70%_30%_/_30%_30%_70%_70%] w-[300px] h-[300px] bottom-[20px] left-[20px] animate-morph-slow-2"></div>
+
+      {/* Scroll Indicator */}
+      <div className="hero-scroll" ref={scrollRef}>
+        <span className="hero-scroll-label">Scroll</span>
+        <div className="hero-scroll-line" />
       </div>
     </section>
+  );
+}
+
+// Emerald particle system matching brand palette:
+// #06D6A0 (Electric Emerald), #0C745B (Forest), #0C4137 (Brunswick)
+function HeroParticles() {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    let animId;
+
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+
+    resize();
+    window.addEventListener('resize', resize);
+
+    // Floating emerald energy orbs
+    const orbs = [
+      { x: window.innerWidth * 0.25, y: window.innerHeight * 0.4, r: 280, vx: 0.15, vy: -0.1, color: '6, 214, 160', alpha: 0.07 },
+      { x: window.innerWidth * 0.75, y: window.innerHeight * 0.6, r: 350, vx: -0.12, vy: 0.08, color: '12, 116, 91', alpha: 0.09 },
+      { x: window.innerWidth * 0.5,  y: window.innerHeight * 0.8, r: 400, vx: 0.08, vy: -0.15, color: '12, 65, 55', alpha: 0.14 },
+    ];
+
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      orbs.forEach(orb => {
+        orb.x += orb.vx;
+        orb.y += orb.vy;
+
+        if (orb.x < -orb.r) orb.x = canvas.width + orb.r;
+        if (orb.x > canvas.width + orb.r) orb.x = -orb.r;
+        if (orb.y < -orb.r) orb.y = canvas.height + orb.r;
+        if (orb.y > canvas.height + orb.r) orb.y = -orb.r;
+
+        const grad = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, orb.r);
+        grad.addColorStop(0, `rgba(${orb.color}, ${orb.alpha})`);
+        grad.addColorStop(1, `rgba(${orb.color}, 0)`);
+
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(orb.x, orb.y, orb.r, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      animId = requestAnimationFrame(draw);
+    };
+
+    draw();
+
+    return () => {
+      cancelAnimationFrame(animId);
+      window.removeEventListener('resize', resize);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      style={{
+        position: 'absolute', inset: 0,
+        width: '100%', height: '100%',
+        pointerEvents: 'none',
+      }}
+    />
   );
 }

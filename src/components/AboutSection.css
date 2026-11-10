@@ -1,0 +1,186 @@
+/* ============================================================
+   About Section — Emerald Edition
+   ============================================================ */
+
+.about-section {
+  padding: clamp(5rem, 10vh, 8rem) 0;
+  border-top: 1px solid var(--line);
+  position: relative;
+  overflow: hidden;
+}
+
+.about-inner {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: clamp(3rem, 6vw, 6rem);
+  align-items: center;
+}
+
+.about-label {
+  margin-bottom: 1.5rem;
+}
+
+.about-headline {
+  font-family: var(--font-serif);
+  font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+  margin-bottom: 2rem;
+}
+
+.about-headline em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.about-body {
+  font-size: clamp(0.92rem, 1.2vw, 1.05rem);
+  color: var(--muted);
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+}
+
+.about-body strong {
+  color: var(--text);
+  font-weight: 400;
+}
+
+.about-quote {
+  margin: 2.2rem 0;
+  padding-left: 1.5rem;
+  border-left: 2px solid var(--accent);
+  background: linear-gradient(90deg, rgba(6, 214, 160, 0.05), transparent);
+  padding: 1rem 1.5rem;
+  border-radius: 0 4px 4px 0;
+}
+
+.about-quote p {
+  font-family: var(--font-serif);
+  font-size: clamp(1.15rem, 1.8vw, 1.45rem);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+/* Tools tags */
+.about-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.tool-tag {
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  padding: 0.45rem 0.95rem;
+  border-radius: 20px;
+  background: var(--surface);
+  transition: all 0.2s ease;
+}
+
+.tool-tag:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(6, 214, 160, 0.08);
+  box-shadow: 0 0 12px rgba(6, 214, 160, 0.2);
+}
+
+/* Palette swatches preview */
+.about-palette {
+  margin-top: 2rem;
+  padding-top: 1.8rem;
+  border-top: 1px solid var(--line);
+}
+
+.palette-chips {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.palette-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.75rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  font-size: 0.68rem;
+  color: var(--muted);
+}
+
+.chip-color {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  box-shadow: 0 0 6px rgba(0,0,0,0.5);
+}
+
+/* Visual side - Hero poster card */
+.about-visual {
+  position: relative;
+}
+
+.about-card-container {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(6, 214, 160, 0.25);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 40px rgba(6, 214, 160, 0.15);
+  background: var(--surface);
+}
+
+.about-card-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.about-card-container:hover .about-card-img {
+  transform: scale(1.03);
+}
+
+.about-card-badge {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  right: 1.5rem;
+  padding: 1rem 1.2rem;
+  background: rgba(7, 10, 9, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(6, 214, 160, 0.25);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.about-card-badge-title {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 300;
+  color: var(--text);
+}
+
+.about-card-badge-sub {
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+@media (max-width: 900px) {
+  .about-inner {
+    grid-template-columns: 1fr;
+    gap: 3.5rem;
+  }
+}

@@ -1,0 +1,110 @@
+/* ============================================================
+   Stats Strip Styles
+   ============================================================ */
+
+.stats-strip {
+  padding: 5rem 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  overflow: hidden;
+}
+
+.stats-inner {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr;
+  align-items: center;
+  gap: 0;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 1.5rem 2rem;
+}
+
+.stat-value {
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  line-height: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0.1em;
+}
+
+.stat-suffix {
+  font-size: 0.6em;
+  color: var(--accent);
+  margin-bottom: 0.1em;
+}
+
+.stat-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 0.75rem;
+}
+
+.stat-divider {
+  width: 1px;
+  height: 60px;
+  background: var(--line);
+  align-self: center;
+}
+
+/* Logo marquee */
+.logos-marquee {
+  overflow: hidden;
+  padding: 2rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.logos-track {
+  display: flex;
+  gap: 4rem;
+  animation: marquee 25s linear infinite;
+  width: max-content;
+}
+
+.logos-track:hover {
+  animation-play-state: paused;
+}
+
+.logo-item {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: 0.4;
+  white-space: nowrap;
+  transition: opacity 0.3s;
+  flex-shrink: 0;
+}
+
+.logo-item:hover {
+  opacity: 0.7;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@media (max-width: 768px) {
+  .stats-inner {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .stat-divider {
+    width: 60px;
+    height: 1px;
+    margin: 0 auto;
+  }
+}
+

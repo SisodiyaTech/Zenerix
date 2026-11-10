@@ -1,0 +1,280 @@
+/* ============================================================
+   Selected Work Section
+   ============================================================ */
+
+.work-section {
+  padding: clamp(5rem, 10vh, 8rem) 0;
+}
+
+.work-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: clamp(3rem, 6vh, 5rem);
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.work-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.work-title em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.work-count {
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Filter tabs */
+.work-filters {
+  display: flex;
+  gap: 0;
+  flex-wrap: wrap;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  overflow: hidden;
+  align-self: flex-start;
+}
+
+.filter-btn {
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 0.65rem 1.2rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: color 0.2s, background 0.2s;
+  border-right: 1px solid var(--line);
+}
+
+.filter-btn:last-child {
+  border-right: none;
+}
+
+.filter-btn:hover {
+  color: var(--text);
+  background: var(--surface);
+}
+
+.filter-btn.active {
+  color: var(--bg);
+  background: var(--text);
+}
+
+/* Grid */
+.work-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 1.5rem;
+}
+
+/* Video Cards */
+.video-card {
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 2px;
+  background: var(--surface);
+}
+
+/* Asymmetric layout positions */
+.video-card:nth-child(1) { grid-column: span 7; grid-row: span 1; }
+.video-card:nth-child(2) { grid-column: span 5; grid-row: span 1; }
+.video-card:nth-child(3) { grid-column: span 4; grid-row: span 1; }
+.video-card:nth-child(4) { grid-column: span 4; grid-row: span 1; }
+.video-card:nth-child(5) { grid-column: span 4; grid-row: span 1; }
+.video-card:nth-child(6) { grid-column: span 6; grid-row: span 1; }
+.video-card:nth-child(7) { grid-column: span 6; grid-row: span 1; }
+.video-card:nth-child(8) { grid-column: span 12; grid-row: span 1; }
+
+.video-card-thumb {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Aspect ratios */
+.video-card.horizontal .video-card-thumb {
+  aspect-ratio: 16 / 9;
+}
+
+.video-card.vertical .video-card-thumb {
+  aspect-ratio: 9 / 16;
+}
+
+/* For wide cards with vertical content, cap height */
+.video-card:nth-child(8).vertical .video-card-thumb {
+  aspect-ratio: 21 / 9;
+}
+
+.video-thumb-bg {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.video-card:hover .video-thumb-bg {
+  transform: scale(1.05);
+}
+
+/* Play button overlay */
+.video-play-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(11, 11, 12, 0);
+  transition: background 0.4s;
+}
+
+.video-card:hover .video-play-overlay {
+  background: rgba(11, 11, 12, 0.4);
+}
+
+.play-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.3s, transform 0.3s, border-color 0.3s;
+  backdrop-filter: blur(4px);
+  background: rgba(11, 11, 12, 0.3);
+}
+
+.video-card:hover .play-btn {
+  opacity: 1;
+  transform: scale(1);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Category tag */
+.video-tag {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text);
+  background: rgba(11, 11, 12, 0.7);
+  backdrop-filter: blur(4px);
+  padding: 0.3rem 0.7rem;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+}
+
+/* Card info */
+.video-card-info {
+  padding: 1rem 1.2rem;
+}
+
+.video-card-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1rem, 1.5vw, 1.3rem);
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  line-height: 1.2;
+  margin-bottom: 0.4rem;
+  transition: color 0.3s;
+}
+
+.video-card:hover .video-card-title {
+  color: var(--accent);
+}
+
+.video-card-desc {
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* View all */
+.work-footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 4rem;
+  padding-top: 3rem;
+  border-top: 1px solid var(--line);
+}
+
+.view-all-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 0.3rem;
+  transition: color 0.3s, border-color 0.3s;
+  cursor: pointer;
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+
+.view-all-btn:hover {
+  color: var(--text);
+  border-bottom-color: var(--accent);
+}
+
+@media (max-width: 1024px) {
+  .video-card:nth-child(1) { grid-column: span 12; }
+  .video-card:nth-child(2) { grid-column: span 12; }
+  .video-card:nth-child(3) { grid-column: span 6; }
+  .video-card:nth-child(4) { grid-column: span 6; }
+  .video-card:nth-child(5) { grid-column: span 6; }
+  .video-card:nth-child(6) { grid-column: span 6; }
+  .video-card:nth-child(7) { grid-column: span 12; }
+  .video-card:nth-child(8) { grid-column: span 12; }
+}
+
+@media (max-width: 640px) {
+  .work-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .video-card:nth-child(n) { grid-column: span 2; }
+  .video-card:nth-child(odd).vertical { grid-column: span 1; }
+  .video-card:nth-child(even).vertical { grid-column: span 1; }
+
+  .work-filters {
+    width: 100%;
+    overflow-x: auto;
+  }
+}
+
