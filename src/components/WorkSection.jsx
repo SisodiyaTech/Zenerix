@@ -23,23 +23,28 @@ function VideoThumb({ project }) {
         background: `radial-gradient(ellipse at 30% 70%, ${project.thumbnailColor}, #0B0B0C)`,
       }}
     >
-      {/* Drive thumbnail */}
+      {/* Optimized thumbnail with WebP and Lazy Loading */}
       {!imgError && (
-        <img
-          src={project.thumbnail}
-          alt={project.title}
-          onLoad={() => setImgLoaded(true)}
-          onError={() => setImgError(true)}
-          style={{
-            position: 'absolute',
-            inset: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            opacity: imgLoaded ? 1 : 0,
-            transition: 'opacity 0.5s ease',
-          }}
-        />
+        <picture>
+          {project.thumbnailWebp && <source srcSet={project.thumbnailWebp} type="image/webp" />}
+          <img
+            src={project.thumbnail}
+            alt={project.title}
+            loading="lazy"
+            decoding="async"
+            onLoad={() => setImgLoaded(true)}
+            onError={() => setImgError(true)}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              opacity: imgLoaded ? 1 : 0,
+              transition: 'opacity 0.5s ease',
+            }}
+          />
+        </picture>
       )}
 
       {/* Category watermark shown if no thumb */}
@@ -218,13 +223,15 @@ export default function WorkSection() {
         </div>
       </section>
 
-      {/* Modal */}
-      <VideoModal
-        project={modalProject}
-        onClose={() => setModalProject(null)}
-        onPrev={handlePrev}
-        onNext={handleNext}
-      />
+      {/* Modal only rendered when active */}
+      {modalProject && (
+        <VideoModal
+          project={modalProject}
+          onClose={() => setModalProject(null)}
+          onPrev={handlePrev}
+          onNext={handleNext}
+        />
+      )}
     </>
   );
 }

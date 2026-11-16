@@ -109,11 +109,18 @@ export default function AboutSection() {
           {/* Right — Visual poster */}
           <div className="about-visual" ref={rightRef} style={{ opacity: 0 }}>
             <div className="about-card-container">
-              <img
-                src="/brand/hero-poster.png"
-                alt="Zenerix Futuristic Emerald Identity"
-                className="about-card-img"
-              />
+              <picture>
+                <source srcSet="/brand/hero-poster.webp" type="image/webp" />
+                <img
+                  src="/brand/hero-poster.png"
+                  alt="Zenerix Futuristic Emerald Identity"
+                  className="about-card-img"
+                  loading="lazy"
+                  decoding="async"
+                  width="1122"
+                  height="1402"
+                />
+              </picture>
               <div className="about-card-badge">
                 <div>
                   <div className="about-card-badge-title">ZENERIX MEDIA</div>
@@ -122,6 +129,8 @@ export default function AboutSection() {
                 <img
                   src="/brand/logo-mark.png"
                   alt="Zenerix"
+                  loading="lazy"
+                  decoding="async"
                   style={{ height: '36px', filter: 'drop-shadow(0 0 10px rgba(6, 214, 160, 0.5))' }}
                 />
               </div>

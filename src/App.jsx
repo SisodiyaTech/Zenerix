@@ -1,62 +1,88 @@
 // ============================================================
-// App.jsx — Root component
+// App.jsx — Optimized Root Component
 // Zenerix Media Portfolio Website
+// Uses React.lazy & Suspense for code splitting & lazy loading
 // ============================================================
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Lenis from '@studio-freight/lenis';
+import Lenis from 'lenis';
 
 import './App.css';
 
-// Components
+// Above-the-fold critical components (loaded immediately)
 import PageLoader from './components/PageLoader';
 import CustomCursor from './components/CustomCursor';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import ReelBand from './components/ReelBand';
-import StatsStrip from './components/StatsStrip';
-import HScrollGallery from './components/HScrollGallery';
-import WorkSection from './components/WorkSection';
-import AboutSection from './components/AboutSection';
-import ServicesSection from './components/ServicesSection';
-import ProcessSection from './components/ProcessSection';
-import FAQSection from './components/FAQSection';
-import ContactSection from './components/ContactSection';
-import Footer from './components/Footer';
 import WhatsAppFloat from './components/WhatsAppFloat';
-import VideoModal from './components/VideoModal';
 import { showreel as showreelProject } from './data/projects';
 
+// Below-the-fold components (lazy loaded for optimal bundle size & performance)
+const ReelBand = lazy(() => import('./components/ReelBand'));
+const StatsStrip = lazy(() => import('./components/StatsStrip'));
+const HScrollGallery = lazy(() => import('./components/HScrollGallery'));
+const WorkSection = lazy(() => import('./components/WorkSection'));
+const BeforeAfter = lazy(() => import('./components/BeforeAfter'));
+const AboutSection = lazy(() => import('./components/AboutSection'));
+const ServicesSection = lazy(() => import('./components/ServicesSection'));
+const ProcessSection = lazy(() => import('./components/ProcessSection'));
+const FAQSection = lazy(() => import('./components/FAQSection'));
+const ContactSection = lazy(() => import('./components/ContactSection'));
+const Footer = lazy(() => import('./components/Footer'));
+const VideoModal = lazy(() => import('./components/VideoModal'));
+
 gsap.registerPlugin(ScrollTrigger);
+
+// Fallback skeleton placeholder while lazy chunks resolve
+function SectionPlaceholder({ minHeight = '300px' }) {
+  return (
+    <div
+      style={{
+        minHeight,
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'transparent',
+      }}
+      aria-hidden="true"
+    />
+  );
+}
 
 export default function App() {
   const [loaded, setLoaded] = useState(false);
   const [showreel, setShowreel] = useState(false);
   const lenisRef = useRef(null);
 
-  // Initialize Lenis smooth scroll after page loads
+  // Initialize Lenis smooth scroll after initial page load
   useEffect(() => {
     if (!loaded) return;
 
     const lenis = new Lenis({
-      duration: 1.4,
+      duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       smoothWheel: true,
+      autoRaf: false, // We sync with GSAP ticker below
     });
 
     lenisRef.current = lenis;
 
-    const raf = (time) => {
-      lenis.raf(time);
-      ScrollTrigger.update();
-      requestAnimationFrame(raf);
+    // Connect Lenis to ScrollTrigger
+    lenis.on('scroll', ScrollTrigger.update);
+
+    // Sync Lenis with GSAP's ticker for zero jitter
+    const onTick = (time) => {
+      lenis.raf(time * 1000);
     };
 
-    requestAnimationFrame(raf);
+    gsap.ticker.add(onTick);
+    gsap.ticker.lagSmoothing(0);
 
     return () => {
+      gsap.ticker.remove(onTick);
       lenis.destroy();
     };
   }, [loaded]);
@@ -70,7 +96,7 @@ export default function App() {
       {/* 1. Page Loader — Metallic Logo Mark reveal */}
       <PageLoader onComplete={handleLoaderComplete} />
 
-      {/* 2. Custom Cursor — Emerald Glow Cursor (desktop) */}
+      {/* 2. Custom Cursor — Emerald Glow (desktop only) */}
       <CustomCursor />
 
       {/* 3. WhatsApp Floating Button */}
@@ -81,50 +107,69 @@ export default function App() {
         <Navbar />
 
         <main>
-          {/* Hero Section with particle canvas & ambient poster */}
+          {/* Hero Section — critical above-the-fold */}
           <Hero onWatchShowreel={() => setShowreel(true)} />
 
-          {/* Cinematic service ticker */}
-          <ReelBand />
+          {/* Below-the-fold lazy-loaded sections */}
+          <Suspense fallback={<SectionPlaceholder minHeight="60px" />}>
+            <ReelBand />
+          </Suspense>
 
-          {/* Social proof counters + client logo marquee */}
-          <StatsStrip />
+          <Suspense fallback={<SectionPlaceholder minHeight="250px" />}>
+            <StatsStrip />
+          </Suspense>
 
-          {/* Featured drag-to-scroll horizontal gallery */}
-          <HScrollGallery />
+          <Suspense fallback={<SectionPlaceholder minHeight="500px" />}>
+            <HScrollGallery />
+          </Suspense>
 
-          {/* Selected Work — 12-column asymmetric portfolio grid with real Drive videos */}
-          <WorkSection />
+          <Suspense fallback={<SectionPlaceholder minHeight="700px" />}>
+            <WorkSection />
+          </Suspense>
 
-          {/* Reverse marquee divider */}
-          <ReelBand reverse />
+          {/* Interactive Before / After Transformation Slider (Blueprint 4.6) */}
+          <Suspense fallback={<SectionPlaceholder minHeight="550px" />}>
+            <BeforeAfter />
+          </Suspense>
 
-          {/* About — Agency philosophy, editing suite & official emerald color palette */}
-          <AboutSection />
+          <Suspense fallback={<SectionPlaceholder minHeight="60px" />}>
+            <ReelBand reverse />
+          </Suspense>
 
-          {/* Services — Expandable accordion rows */}
-          <ServicesSection />
+          <Suspense fallback={<SectionPlaceholder minHeight="500px" />}>
+            <AboutSection />
+          </Suspense>
 
-          {/* Process — 3-step connected timeline */}
-          <ProcessSection />
+          <Suspense fallback={<SectionPlaceholder minHeight="500px" />}>
+            <ServicesSection />
+          </Suspense>
 
-          {/* FAQ — Common questions accordion */}
-          <FAQSection />
+          <Suspense fallback={<SectionPlaceholder minHeight="400px" />}>
+            <ProcessSection />
+          </Suspense>
 
-          {/* Contact & CTA — Calendly booking, WhatsApp & query form */}
-          <ContactSection />
+          <Suspense fallback={<SectionPlaceholder minHeight="400px" />}>
+            <FAQSection />
+          </Suspense>
+
+          <Suspense fallback={<SectionPlaceholder minHeight="600px" />}>
+            <ContactSection />
+          </Suspense>
         </main>
 
-        {/* Footer with brand logos and quick navigation */}
-        <Footer />
+        <Suspense fallback={<SectionPlaceholder minHeight="200px" />}>
+          <Footer />
+        </Suspense>
       </div>
 
-      {/* Showreel Fullscreen Modal */}
+      {/* Showreel Fullscreen Modal (lazy loaded only on click) */}
       {showreel && (
-        <VideoModal
-          project={showreelProject}
-          onClose={() => setShowreel(false)}
-        />
+        <Suspense fallback={null}>
+          <VideoModal
+            project={showreelProject}
+            onClose={() => setShowreel(false)}
+          />
+        </Suspense>
       )}
     </>
   );

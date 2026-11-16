@@ -30,24 +30,29 @@ function HScrollThumb({ project }) {
           background: `radial-gradient(ellipse at 30% 70%, ${project.thumbnailColor}, #0B0B0C)`,
         }}
       />
-      {/* Drive thumbnail on top */}
+      {/* Optimized thumbnail with WebP and Lazy Loading */}
       {!error && (
-        <img
-          src={project.thumbnail}
-          alt={project.title}
-          onLoad={() => setLoaded(true)}
-          onError={() => setError(true)}
-          style={{
-            position: 'absolute',
-            inset: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            opacity: loaded ? 1 : 0,
-            transition: 'opacity 0.5s ease',
-            zIndex: 1,
-          }}
-        />
+        <picture>
+          {project.thumbnailWebp && <source srcSet={project.thumbnailWebp} type="image/webp" />}
+          <img
+            src={project.thumbnail}
+            alt={project.title}
+            loading="lazy"
+            decoding="async"
+            onLoad={() => setLoaded(true)}
+            onError={() => setError(true)}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              opacity: loaded ? 1 : 0,
+              transition: 'opacity 0.5s ease',
+              zIndex: 1,
+            }}
+          />
+        </picture>
       )}
     </>
   );

@@ -6,6 +6,7 @@ import './Footer.css';
 
 const quickLinks = [
   { label: 'Work Portfolio', href: '#work' },
+  { label: 'Craft & Grading', href: '#comparison' },
   { label: 'Editing Services', href: '#services' },
   { label: 'Workflow Process', href: '#process' },
   { label: 'Agency Philosophy', href: '#about' },

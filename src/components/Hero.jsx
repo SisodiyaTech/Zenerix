@@ -1,5 +1,5 @@
 // ============================================================
-// Hero Section Component — Emerald Edition
+// Hero Section Component — Emerald Edition (Optimized)
 // ============================================================
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
@@ -16,32 +16,33 @@ export default function Hero({ onWatchShowreel }) {
   const scrollRef = useRef(null);
 
   useEffect(() => {
-    const tl = gsap.timeline({ delay: 1.6 });
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ delay: 1.4 });
 
-    tl.to(eyebrowRef.current, {
-      opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
-    })
-    .to([line1Ref.current, line2Ref.current].map(el => el?.querySelector('span')), {
-      y: 0, duration: 1.1, stagger: 0.12, ease: 'power4.out',
-    }, '-=0.4')
-    .to(subRef.current?.querySelector('span'), {
-      y: 0, duration: 0.8, ease: 'power3.out',
-    }, '-=0.6')
-    .to(actionsRef.current, {
-      opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
-    }, '-=0.5')
-    .to(scrollRef.current, {
-      opacity: 1, duration: 0.6, ease: 'power2.out',
-    }, '-=0.3');
+      tl.to(eyebrowRef.current, {
+        opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
+      })
+      .to([line1Ref.current, line2Ref.current].map(el => el?.querySelector('span')), {
+        y: 0, duration: 1.1, stagger: 0.12, ease: 'power4.out',
+      }, '-=0.4')
+      .to(subRef.current?.querySelector('span'), {
+        y: 0, duration: 0.8, ease: 'power3.out',
+      }, '-=0.6')
+      .to(actionsRef.current, {
+        opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
+      }, '-=0.5')
+      .to(scrollRef.current, {
+        opacity: 1, duration: 0.6, ease: 'power2.out',
+      }, '-=0.3');
+    }, heroRef);
 
-    return () => tl.kill();
+    return () => ctx.revert();
   }, []);
 
   return (
     <section className="hero" id="hero" ref={heroRef}>
       {/* Background */}
       <div className="hero-bg">
-        {/* Base dark canvas */}
         <div style={{
           position: 'absolute', inset: 0,
           background: 'radial-gradient(ellipse at 40% 70%, #0C4137 0%, #070A09 65%)',
@@ -111,11 +112,15 @@ function HeroParticles() {
   const canvasRef = useRef(null);
 
   useEffect(() => {
+    // Respect reduced motion
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
     let animId;
+    let isActive = true;
 
     const resize = () => {
       canvas.width = window.innerWidth;
@@ -123,7 +128,7 @@ function HeroParticles() {
     };
 
     resize();
-    window.addEventListener('resize', resize);
+    window.addEventListener('resize', resize, { passive: true });
 
     // Floating emerald energy orbs
     const orbs = [
@@ -133,6 +138,7 @@ function HeroParticles() {
     ];
 
     const draw = () => {
+      if (!isActive) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       orbs.forEach(orb => {
@@ -157,11 +163,21 @@ function HeroParticles() {
       animId = requestAnimationFrame(draw);
     };
 
-    draw();
+    const onVisibilityChange = () => {
+      isActive = !document.hidden;
+      if (isActive) {
+        cancelAnimationFrame(animId);
+        animId = requestAnimationFrame(draw);
+      }
+    };
+
+    document.addEventListener('visibilitychange', onVisibilityChange);
+    animId = requestAnimationFrame(draw);
 
     return () => {
       cancelAnimationFrame(animId);
       window.removeEventListener('resize', resize);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
     };
   }, []);
 
