@@ -148,7 +148,7 @@ export default function HScrollGallery() {
           </div>
           <div className="flex items-center gap-3">
             <Link
-              to="/work"
+              to="/demo"
               className="inline-flex items-center gap-1.5 text-xs uppercase tracking-widest text-[#06D6A0] hover:text-[#09D5A0] border border-[#06D6A0]/30 hover:border-[#06D6A0]/60 px-4 py-2 rounded-full transition-all"
             >
               <span>View All Demos</span>

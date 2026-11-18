@@ -7,7 +7,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 
 const navLinks = [
-  { label: 'Work', to: '/work', isRoute: true },
+  { label: 'Demo', to: '/demo', isRoute: true },
   { label: 'Services', to: '#services', isRoute: false },
   { label: 'Process', to: '#process', isRoute: false },
   { label: 'About', to: '#about', isRoute: false },
@@ -87,7 +87,7 @@ export default function Navbar() {
         ref={navRef}
         style={{ opacity: 0 }}
         className={`fixed top-0 inset-x-0 z-50 flex items-center justify-between px-6 sm:px-10 lg:px-16 transition-all duration-400 ${
-          scrolled || location.pathname === '/work'
+          scrolled || location.pathname === '/demo' || location.pathname === '/work'
             ? 'bg-[#070A09]/90 backdrop-blur-xl border-b border-[#E6FBF6]/10 py-3.5 shadow-2xl'
             : 'bg-transparent py-5 border-b border-transparent'
         }`}
@@ -112,14 +112,16 @@ export default function Navbar() {
         {/* Desktop Nav Links */}
         <ul className="hidden md:flex items-center gap-9 list-none">
           {navLinks.map((link) => {
-            const isWorkActive = link.isRoute && location.pathname === link.to;
+            const isDemoActive =
+              link.isRoute &&
+              (location.pathname === '/demo' || location.pathname === '/work');
             return (
               <li key={link.label}>
                 <a
                   href={link.to}
                   onClick={(e) => handleNavClick(e, link)}
                   className={`group relative font-sans text-xs uppercase tracking-widest transition-colors py-1 ${
-                    isWorkActive
+                    isDemoActive
                       ? 'text-[#06D6A0] font-medium'
                       : 'text-[#8AA49E] hover:text-[#E6FBF6]'
                   }`}
@@ -127,7 +129,7 @@ export default function Navbar() {
                   {link.label}
                   <span
                     className={`absolute bottom-0 left-0 h-px bg-[#06D6A0] shadow-[0_0_8px_#06D6A0] transition-all duration-300 ${
-                      isWorkActive ? 'w-full' : 'w-0 group-hover:w-full'
+                      isDemoActive ? 'w-full' : 'w-0 group-hover:w-full'
                     }`}
                   />
                 </a>
@@ -182,20 +184,25 @@ export default function Navbar() {
           alt="Zenerix"
           className="w-14 h-auto max-w-[56px] object-contain drop-shadow-[0_0_20px_rgba(6,214,160,0.4)] mb-4"
         />
-        {navLinks.map((link) => (
-          <a
-            key={link.label}
-            href={link.to}
-            onClick={(e) => handleNavClick(e, link)}
-            className={`font-serif text-3xl font-light tracking-wide transition-colors ${
-              link.isRoute && location.pathname === link.to
-                ? 'text-[#06D6A0]'
-                : 'text-[#E6FBF6] hover:text-[#06D6A0]'
-            }`}
-          >
-            {link.label}
-          </a>
-        ))}
+        {navLinks.map((link) => {
+          const isDemoActive =
+            link.isRoute &&
+            (location.pathname === '/demo' || location.pathname === '/work');
+          return (
+            <a
+              key={link.label}
+              href={link.to}
+              onClick={(e) => handleNavClick(e, link)}
+              className={`font-serif text-3xl font-light tracking-wide transition-colors ${
+                isDemoActive
+                  ? 'text-[#06D6A0]'
+                  : 'text-[#E6FBF6] hover:text-[#06D6A0]'
+              }`}
+            >
+              {link.label}
+            </a>
+          );
+        })}
         <a
           href="#contact"
           className="mt-4 font-sans text-xs font-semibold uppercase tracking-wider text-[#070A09] bg-[#06D6A0] px-8 py-3.5 rounded shadow-[0_0_20px_rgba(6,214,160,0.3)]"

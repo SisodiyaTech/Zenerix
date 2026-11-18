@@ -105,6 +105,7 @@ export default function App() {
             path="/"
             element={<HomePage onWatchShowreel={() => setShowreel(true)} />}
           />
+          <Route path="/demo" element={<WorkPage />} />
           <Route path="/work" element={<WorkPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

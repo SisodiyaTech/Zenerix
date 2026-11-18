@@ -118,7 +118,7 @@ export default function Hero({ onWatchShowreel }) {
             <span>Watch Showreel</span>
           </button>
           <Link
-            to="/work"
+            to="/demo"
             className="inline-flex items-center gap-2 font-sans text-xs font-medium uppercase tracking-wider text-[#E6FBF6] bg-[#141E1B] hover:bg-[#1A2824] border border-[#E6FBF6]/10 hover:border-[#06D6A0]/40 px-7 py-4 rounded transition-all hover:-translate-y-0.5 cursor-pointer"
           >
             Explore Portfolio
