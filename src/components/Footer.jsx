@@ -2,14 +2,15 @@
 // Footer Component — Emerald Edition
 // Styled with Tailwind CSS (Zero external CSS dependency)
 // ============================================================
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { contact } from '../data/projects';
 
 const quickLinks = [
-  { label: 'Work Portfolio', href: '#work' },
-  { label: 'Editing Services', href: '#services' },
-  { label: 'Workflow Process', href: '#process' },
-  { label: 'Agency Philosophy', href: '#about' },
-  { label: 'Start a Project', href: '#contact' },
+  { label: 'Work Portfolio', href: '/work', isRoute: true },
+  { label: 'Editing Services', href: '#services', isRoute: false },
+  { label: 'Workflow Process', href: '#process', isRoute: false },
+  { label: 'Agency Philosophy', href: '#about', isRoute: false },
+  { label: 'Start a Project', href: '#contact', isRoute: false },
 ];
 
 const socials = [
@@ -21,10 +22,31 @@ const socials = [
 ];
 
 export default function Footer() {
-  const handleNav = (e, href) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleNav = (e, link) => {
     e.preventDefault();
-    const target = document.querySelector(href);
-    if (target) target.scrollIntoView({ behavior: 'smooth' });
+    if (link.isRoute) {
+      navigate(link.href);
+      return;
+    }
+
+    if (location.pathname !== '/') {
+      navigate(`/${link.href}`);
+    } else {
+      const target = document.querySelector(link.href);
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleBrandClick = (e) => {
+    e.preventDefault();
+    if (location.pathname !== '/') {
+      navigate('/');
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   return (
@@ -33,7 +55,11 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 sm:gap-16 pb-14 border-b border-[#E6FBF6]/10">
           {/* Brand */}
           <div className="md:col-span-2 max-w-md">
-            <div className="flex items-center gap-2.5 mb-5">
+            <Link
+              to="/"
+              onClick={handleBrandClick}
+              className="inline-flex items-center gap-2.5 mb-5 cursor-pointer"
+            >
               <img
                 src="/brand/logo-mark.png"
                 alt="Zenerix Mark"
@@ -44,7 +70,7 @@ export default function Footer() {
                 alt="Zenerix"
                 className="h-[18px] max-h-[18px] w-auto max-w-[110px] object-contain opacity-95"
               />
-            </div>
+            </Link>
             <p className="text-sm text-[#8AA49E] leading-relaxed">
               Premium video editing agency for brands, creators, and marketers who demand cinematic retention.
             </p>
@@ -60,7 +86,7 @@ export default function Footer() {
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    onClick={(e) => handleNav(e, link.href)}
+                    onClick={(e) => handleNav(e, link)}
                     className="text-sm text-[#8AA49E] hover:text-[#E6FBF6] transition-colors"
                   >
                     {link.label}

@@ -7,12 +7,9 @@ import { X, ChevronLeft, ChevronRight, ExternalLink, Loader2 } from 'lucide-reac
 
 export default function VideoModal({ project, onClose, onPrev, onNext }) {
   const backdropRef = useRef(null);
-  const [iframeLoading, setIframeLoading] = useState(true);
+  const [loadedUrl, setLoadedUrl] = useState(null);
   const isOpen = !!project;
-
-  useEffect(() => {
-    setIframeLoading(true);
-  }, [project?.embedUrl]);
+  const iframeLoading = Boolean(project?.embedUrl && loadedUrl !== project.embedUrl);
 
   // Handle ESC / arrow keys
   useEffect(() => {
@@ -104,7 +101,7 @@ export default function VideoModal({ project, onClose, onPrev, onNext }) {
             allowFullScreen
             allow="autoplay; fullscreen"
             loading="lazy"
-            onLoad={() => setIframeLoading(false)}
+            onLoad={() => setLoadedUrl(project.embedUrl)}
             className="absolute inset-0 w-full h-full border-0"
           />
         ) : (

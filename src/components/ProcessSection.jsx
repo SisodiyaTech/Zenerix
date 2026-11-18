@@ -2,7 +2,7 @@
 // Process Section — 3-step Horizontal Layout
 // Styled with Tailwind CSS (Zero external CSS dependency)
 // ============================================================
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Sparkles } from 'lucide-react';

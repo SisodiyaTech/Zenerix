@@ -3,6 +3,7 @@
 // Styled with Tailwind CSS (Zero external CSS dependency)
 // ============================================================
 import { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { Play } from 'lucide-react';
 
@@ -116,12 +117,12 @@ export default function Hero({ onWatchShowreel }) {
             <Play size={14} fill="currentColor" strokeWidth={0} />
             <span>Watch Showreel</span>
           </button>
-          <a
-            href="#work"
+          <Link
+            to="/work"
             className="inline-flex items-center gap-2 font-sans text-xs font-medium uppercase tracking-wider text-[#E6FBF6] bg-[#141E1B] hover:bg-[#1A2824] border border-[#E6FBF6]/10 hover:border-[#06D6A0]/40 px-7 py-4 rounded transition-all hover:-translate-y-0.5 cursor-pointer"
           >
             Explore Portfolio
-          </a>
+          </Link>
         </div>
       </div>
 

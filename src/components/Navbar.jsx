@@ -1,16 +1,17 @@
 // ============================================================
 // Navbar Component — Emerald Brand Edition
-// Styled with Tailwind CSS (Zero external CSS dependency)
+// Styled with Tailwind CSS & React Router DOM
 // ============================================================
 import { useEffect, useRef, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 
 const navLinks = [
-  { label: 'Work', href: '#work' },
-  { label: 'Services', href: '#services' },
-  { label: 'Process', href: '#process' },
-  { label: 'About', href: '#about' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Work', to: '/work', isRoute: true },
+  { label: 'Services', to: '#services', isRoute: false },
+  { label: 'Process', to: '#process', isRoute: false },
+  { label: 'About', to: '#about', isRoute: false },
+  { label: 'Contact', to: '#contact', isRoute: false },
 ];
 
 export default function Navbar() {
@@ -19,6 +20,8 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const lastScrollY = useRef(0);
   const hidden = useRef(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Entrance animation
@@ -48,12 +51,33 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleNavClick = (e, href) => {
+  const handleNavClick = (e, link) => {
     e.preventDefault();
     setMenuOpen(false);
-    const target = document.querySelector(href);
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth' });
+
+    if (link.isRoute) {
+      navigate(link.to);
+      return;
+    }
+
+    // Anchor navigation
+    if (location.pathname !== '/') {
+      navigate(`/${link.to}`);
+    } else {
+      const target = document.querySelector(link.to);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
+  const handleBrandClick = (e) => {
+    e.preventDefault();
+    setMenuOpen(false);
+    if (location.pathname !== '/') {
+      navigate('/');
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
@@ -63,15 +87,15 @@ export default function Navbar() {
         ref={navRef}
         style={{ opacity: 0 }}
         className={`fixed top-0 inset-x-0 z-50 flex items-center justify-between px-6 sm:px-10 lg:px-16 transition-all duration-400 ${
-          scrolled
+          scrolled || location.pathname === '/work'
             ? 'bg-[#070A09]/90 backdrop-blur-xl border-b border-[#E6FBF6]/10 py-3.5 shadow-2xl'
             : 'bg-transparent py-5 border-b border-transparent'
         }`}
       >
-        <a
-          href="#hero"
+        <Link
+          to="/"
+          onClick={handleBrandClick}
           className="group flex items-center gap-2.5 shrink-0"
-          onClick={(e) => handleNavClick(e, '#hero')}
         >
           <img
             src="/brand/logo-mark.png"
@@ -83,28 +107,39 @@ export default function Navbar() {
             alt="Zenerix"
             className="h-[18px] max-h-[18px] w-auto max-w-[110px] object-contain opacity-95"
           />
-        </a>
+        </Link>
 
         {/* Desktop Nav Links */}
         <ul className="hidden md:flex items-center gap-9 list-none">
-          {navLinks.map((link) => (
-            <li key={link.label}>
-              <a
-                href={link.href}
-                onClick={(e) => handleNavClick(e, link.href)}
-                className="group relative font-sans text-xs uppercase tracking-widest text-[#8AA49E] hover:text-[#E6FBF6] transition-colors py-1"
-              >
-                {link.label}
-                <span className="absolute bottom-0 left-0 w-0 h-px bg-[#06D6A0] shadow-[0_0_8px_#06D6A0] group-hover:w-full transition-all duration-300" />
-              </a>
-            </li>
-          ))}
+          {navLinks.map((link) => {
+            const isWorkActive = link.isRoute && location.pathname === link.to;
+            return (
+              <li key={link.label}>
+                <a
+                  href={link.to}
+                  onClick={(e) => handleNavClick(e, link)}
+                  className={`group relative font-sans text-xs uppercase tracking-widest transition-colors py-1 ${
+                    isWorkActive
+                      ? 'text-[#06D6A0] font-medium'
+                      : 'text-[#8AA49E] hover:text-[#E6FBF6]'
+                  }`}
+                >
+                  {link.label}
+                  <span
+                    className={`absolute bottom-0 left-0 h-px bg-[#06D6A0] shadow-[0_0_8px_#06D6A0] transition-all duration-300 ${
+                      isWorkActive ? 'w-full' : 'w-0 group-hover:w-full'
+                    }`}
+                  />
+                </a>
+              </li>
+            );
+          })}
         </ul>
 
         {/* Desktop CTA */}
         <a
           href="#contact"
-          onClick={(e) => handleNavClick(e, '#contact')}
+          onClick={(e) => handleNavClick(e, { to: '#contact', isRoute: false })}
           className="hidden md:inline-flex items-center gap-2 font-sans text-xs font-semibold uppercase tracking-wider text-[#070A09] bg-[#06D6A0] hover:bg-[#09D5A0] px-6 py-2.5 rounded transition-all shadow-[0_0_15px_rgba(6,214,160,0.25)] hover:shadow-[0_0_25px_rgba(6,214,160,0.5)] hover:-translate-y-0.5"
         >
           Let's Talk
@@ -145,14 +180,18 @@ export default function Navbar() {
         <img
           src="/brand/logo-mark.png"
           alt="Zenerix"
-          className="w-14 h-auto drop-shadow-[0_0_20px_rgba(6,214,160,0.4)] mb-4"
+          className="w-14 h-auto max-w-[56px] object-contain drop-shadow-[0_0_20px_rgba(6,214,160,0.4)] mb-4"
         />
         {navLinks.map((link) => (
           <a
             key={link.label}
-            href={link.href}
-            onClick={(e) => handleNavClick(e, link.href)}
-            className="font-serif text-3xl font-light text-[#E6FBF6] hover:text-[#06D6A0] tracking-wide transition-colors"
+            href={link.to}
+            onClick={(e) => handleNavClick(e, link)}
+            className={`font-serif text-3xl font-light tracking-wide transition-colors ${
+              link.isRoute && location.pathname === link.to
+                ? 'text-[#06D6A0]'
+                : 'text-[#E6FBF6] hover:text-[#06D6A0]'
+            }`}
           >
             {link.label}
           </a>
@@ -160,7 +199,7 @@ export default function Navbar() {
         <a
           href="#contact"
           className="mt-4 font-sans text-xs font-semibold uppercase tracking-wider text-[#070A09] bg-[#06D6A0] px-8 py-3.5 rounded shadow-[0_0_20px_rgba(6,214,160,0.3)]"
-          onClick={(e) => handleNavClick(e, '#contact')}
+          onClick={(e) => handleNavClick(e, { to: '#contact', isRoute: false })}
         >
           Let's Talk
         </a>

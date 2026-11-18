@@ -3,6 +3,7 @@
 // Styled with Tailwind CSS (Zero external CSS dependency)
 // ============================================================
 import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Play, ArrowRight, Sparkles } from 'lucide-react';
@@ -145,10 +146,19 @@ export default function HScrollGallery() {
               Work We're <em className="italic text-[#06D6A0]">Proud Of</em>
             </h2>
           </div>
-          <span className="inline-flex items-center gap-1.5 text-xs uppercase tracking-widest text-[#8AA49E]">
-            <ArrowRight size={13} />
-            <span>Drag to browse</span>
-          </span>
+          <div className="flex items-center gap-3">
+            <Link
+              to="/work"
+              className="inline-flex items-center gap-1.5 text-xs uppercase tracking-widest text-[#06D6A0] hover:text-[#09D5A0] border border-[#06D6A0]/30 hover:border-[#06D6A0]/60 px-4 py-2 rounded-full transition-all"
+            >
+              <span>View All Demos</span>
+              <ArrowRight size={13} />
+            </Link>
+            <span className="hidden sm:inline-flex items-center gap-1.5 text-xs uppercase tracking-widest text-[#8AA49E]">
+              <ArrowRight size={13} />
+              <span>Drag to browse</span>
+            </span>
+          </div>
         </div>
 
         {/* Drag-scroll track */}

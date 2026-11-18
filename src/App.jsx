@@ -1,31 +1,25 @@
 // ============================================================
-// App.jsx — Optimized Root Component
+// App.jsx — Optimized Root Component with React Router DOM
 // Zenerix Media Portfolio Website
 // Uses React.lazy & Suspense for code splitting & lazy loading
 // ============================================================
 import { useState, useEffect, useRef, lazy, Suspense } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 
 // Above-the-fold critical components (loaded immediately)
+import ScrollToTop from './components/ScrollToTop';
 import PageLoader from './components/PageLoader';
 import CustomCursor from './components/CustomCursor';
 import Navbar from './components/Navbar';
-import Hero from './components/Hero';
 import WhatsAppFloat from './components/WhatsAppFloat';
+import HomePage from './pages/HomePage';
+import WorkPage from './pages/WorkPage';
 import { showreel as showreelProject } from './data/projects';
 
-// Below-the-fold components (lazy loaded for optimal bundle size & performance)
-const ReelBand = lazy(() => import('./components/ReelBand'));
-const StatsStrip = lazy(() => import('./components/StatsStrip'));
-const HScrollGallery = lazy(() => import('./components/HScrollGallery'));
-const WorkSection = lazy(() => import('./components/WorkSection'));
-const AboutSection = lazy(() => import('./components/AboutSection'));
-const ServicesSection = lazy(() => import('./components/ServicesSection'));
-const ProcessSection = lazy(() => import('./components/ProcessSection'));
-const FAQSection = lazy(() => import('./components/FAQSection'));
-const ContactSection = lazy(() => import('./components/ContactSection'));
+// Below-the-fold lazy-loaded components
 const Footer = lazy(() => import('./components/Footer'));
 const VideoModal = lazy(() => import('./components/VideoModal'));
 
@@ -89,7 +83,10 @@ export default function App() {
   };
 
   return (
-    <>
+    <BrowserRouter>
+      {/* Route change scroll position reset */}
+      <ScrollToTop />
+
       {/* 1. Page Loader — Metallic Logo Mark reveal */}
       <PageLoader onComplete={handleLoaderComplete} />
 
@@ -99,55 +96,18 @@ export default function App() {
       {/* 3. WhatsApp Floating Button */}
       <WhatsAppFloat />
 
-      {/* 4. Main Site */}
+      {/* 4. Main Site Layout */}
       <div className="min-h-screen">
         <Navbar />
 
-        <main>
-          {/* Hero Section — critical above-the-fold */}
-          <Hero onWatchShowreel={() => setShowreel(true)} />
-
-          {/* Below-the-fold lazy-loaded sections */}
-          <Suspense fallback={<SectionPlaceholder minHeight="60px" />}>
-            <ReelBand />
-          </Suspense>
-
-          <Suspense fallback={<SectionPlaceholder minHeight="250px" />}>
-            <StatsStrip />
-          </Suspense>
-
-          <Suspense fallback={<SectionPlaceholder minHeight="500px" />}>
-            <HScrollGallery />
-          </Suspense>
-
-          <Suspense fallback={<SectionPlaceholder minHeight="700px" />}>
-            <WorkSection />
-          </Suspense>
-
-          <Suspense fallback={<SectionPlaceholder minHeight="60px" />}>
-            <ReelBand reverse />
-          </Suspense>
-
-          <Suspense fallback={<SectionPlaceholder minHeight="500px" />}>
-            <AboutSection />
-          </Suspense>
-
-          <Suspense fallback={<SectionPlaceholder minHeight="500px" />}>
-            <ServicesSection />
-          </Suspense>
-
-          <Suspense fallback={<SectionPlaceholder minHeight="400px" />}>
-            <ProcessSection />
-          </Suspense>
-
-          <Suspense fallback={<SectionPlaceholder minHeight="400px" />}>
-            <FAQSection />
-          </Suspense>
-
-          <Suspense fallback={<SectionPlaceholder minHeight="600px" />}>
-            <ContactSection />
-          </Suspense>
-        </main>
+        <Routes>
+          <Route
+            path="/"
+            element={<HomePage onWatchShowreel={() => setShowreel(true)} />}
+          />
+          <Route path="/work" element={<WorkPage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
 
         <Suspense fallback={<SectionPlaceholder minHeight="200px" />}>
           <Footer />
@@ -163,6 +123,6 @@ export default function App() {
           />
         </Suspense>
       )}
-    </>
+    </BrowserRouter>
   );
 }
