@@ -6,6 +6,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { contact } from '../data/projects';
 
 const quickLinks = [
+  { label: 'Home', href: '/', isRoute: true },
   { label: 'Video Demos', href: '/demo', isRoute: true },
   { label: 'Editing Services', href: '#services', isRoute: false },
   { label: 'Workflow Process', href: '#process', isRoute: false },

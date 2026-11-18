@@ -7,6 +7,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 
 const navLinks = [
+  { label: 'Home', to: '/', isRoute: true },
   { label: 'Demo', to: '/demo', isRoute: true },
   { label: 'Services', to: '#services', isRoute: false },
   { label: 'Process', to: '#process', isRoute: false },
@@ -56,7 +57,11 @@ export default function Navbar() {
     setMenuOpen(false);
 
     if (link.isRoute) {
-      navigate(link.to);
+      if (link.to === '/' && location.pathname === '/') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        navigate(link.to);
+      }
       return;
     }
 
@@ -112,16 +117,18 @@ export default function Navbar() {
         {/* Desktop Nav Links */}
         <ul className="hidden md:flex items-center gap-9 list-none">
           {navLinks.map((link) => {
-            const isDemoActive =
+            const isActive =
               link.isRoute &&
-              (location.pathname === '/demo' || location.pathname === '/work');
+              (link.to === '/'
+                ? location.pathname === '/'
+                : location.pathname === '/demo' || location.pathname === '/work');
             return (
               <li key={link.label}>
                 <a
                   href={link.to}
                   onClick={(e) => handleNavClick(e, link)}
                   className={`group relative font-sans text-xs uppercase tracking-widest transition-colors py-1 ${
-                    isDemoActive
+                    isActive
                       ? 'text-[#06D6A0] font-medium'
                       : 'text-[#8AA49E] hover:text-[#E6FBF6]'
                   }`}
@@ -129,7 +136,7 @@ export default function Navbar() {
                   {link.label}
                   <span
                     className={`absolute bottom-0 left-0 h-px bg-[#06D6A0] shadow-[0_0_8px_#06D6A0] transition-all duration-300 ${
-                      isDemoActive ? 'w-full' : 'w-0 group-hover:w-full'
+                      isActive ? 'w-full' : 'w-0 group-hover:w-full'
                     }`}
                   />
                 </a>
@@ -185,16 +192,18 @@ export default function Navbar() {
           className="w-14 h-auto max-w-[56px] object-contain drop-shadow-[0_0_20px_rgba(6,214,160,0.4)] mb-4"
         />
         {navLinks.map((link) => {
-          const isDemoActive =
+          const isActive =
             link.isRoute &&
-            (location.pathname === '/demo' || location.pathname === '/work');
+            (link.to === '/'
+              ? location.pathname === '/'
+              : location.pathname === '/demo' || location.pathname === '/work');
           return (
             <a
               key={link.label}
               href={link.to}
               onClick={(e) => handleNavClick(e, link)}
               className={`font-serif text-3xl font-light tracking-wide transition-colors ${
-                isDemoActive
+                isActive
                   ? 'text-[#06D6A0]'
                   : 'text-[#E6FBF6] hover:text-[#06D6A0]'
               }`}
