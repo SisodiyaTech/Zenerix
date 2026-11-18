@@ -608,11 +608,13 @@ export const process = [
 ];
 
 export const contact = {
-  email: "hello@zenerixmedia.com",
-  whatsapp: "https://wa.me/919876543210",
-  whatsappNumber: "+91 98765 43210",
-  instagram: "https://instagram.com/zenerixmedia",
-  linkedin: "https://linkedin.com/company/zenerixmedia",
-  youtube: "https://youtube.com/@zenerixmedia",
+  email: "zenerixmedia@gmail.com",
+  whatsapp: "https://wa.me/919183917842",
+  whatsappNumber: "+91 91839 17842",
+  instagram: "https://www.instagram.com/zenerix_official/",
+  x: "https://x.com/zenerix_media",
+  twitter: "https://x.com/zenerix_media",
+  linkedin: "https://www.linkedin.com/company/zenerix/home/",
+  facebook: "https://www.facebook.com/people/Zenerix/61589973603211/",
   calendly: "https://calendly.com/zenerixmedia",
 };

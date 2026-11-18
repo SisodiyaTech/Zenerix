@@ -207,12 +207,12 @@ export default function ContactSection() {
                   Instagram
                 </a>
                 <a
-                  href={contact.youtube}
+                  href={contact.x}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-xs text-[#8AA49E] hover:text-[#06D6A0] bg-[#141E1B] hover:bg-[#1A2824] border border-[#E6FBF6]/10 hover:border-[#06D6A0]/30 px-3 py-1.5 rounded transition-all"
                 >
-                  YouTube
+                  X (Twitter)
                 </a>
                 <a
                   href={contact.linkedin}
@@ -221,6 +221,14 @@ export default function ContactSection() {
                   className="text-xs text-[#8AA49E] hover:text-[#06D6A0] bg-[#141E1B] hover:bg-[#1A2824] border border-[#E6FBF6]/10 hover:border-[#06D6A0]/30 px-3 py-1.5 rounded transition-all"
                 >
                   LinkedIn
+                </a>
+                <a
+                  href={contact.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-[#8AA49E] hover:text-[#06D6A0] bg-[#141E1B] hover:bg-[#1A2824] border border-[#E6FBF6]/10 hover:border-[#06D6A0]/30 px-3 py-1.5 rounded transition-all"
+                >
+                  Facebook
                 </a>
               </div>
             </div>

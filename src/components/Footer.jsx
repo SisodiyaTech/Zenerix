@@ -14,8 +14,9 @@ const quickLinks = [
 
 const socials = [
   { label: 'Instagram', href: contact.instagram },
+  { label: 'X (Twitter)', href: contact.x },
   { label: 'LinkedIn', href: contact.linkedin },
-  { label: 'YouTube', href: contact.youtube },
+  { label: 'Facebook', href: contact.facebook },
   { label: 'WhatsApp', href: contact.whatsapp },
 ];
 
