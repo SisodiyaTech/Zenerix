@@ -14,14 +14,6 @@ const tools = [
   'Final Cut Pro', 'Motion 5', 'Adobe Audition',
 ];
 
-const palette = [
-  { name: 'Brunswick', hex: '#0C4137' },
-  { name: 'Forest', hex: '#0C745B' },
-  { name: 'Emerald', hex: '#06D6A0' },
-  { name: 'Sage', hex: '#AACBC4' },
-  { name: 'Polar', hex: '#E6FBF6' },
-];
-
 export default function AboutSection() {
   const sectionRef = useRef(null);
   const leftRef = useRef(null);
@@ -102,7 +94,7 @@ export default function AboutSection() {
             <p className="text-xs font-semibold uppercase tracking-widest text-[#06D6A0] mb-3">
               Production Suite
             </p>
-            <div className="flex flex-wrap gap-2 mb-8">
+            <div className="flex flex-wrap gap-2">
               {tools.map((tool) => (
                 <span
                   key={tool}
@@ -111,28 +103,6 @@ export default function AboutSection() {
                   {tool}
                 </span>
               ))}
-            </div>
-
-            {/* Official Palette */}
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-[#06D6A0] mb-3">
-                Official Palette
-              </p>
-              <div className="flex flex-wrap gap-2.5">
-                {palette.map((c) => (
-                  <div
-                    key={c.hex}
-                    className="flex items-center gap-2 text-xs bg-[#141E1B] border border-[#E6FBF6]/10 px-3 py-1.5 rounded-md text-[#8AA49E]"
-                  >
-                    <span
-                      className="w-3 h-3 rounded-full border border-white/20"
-                      style={{ backgroundColor: c.hex }}
-                    />
-                    <span>{c.name}</span>
-                    <code className="text-[0.62rem] opacity-70">{c.hex}</code>
-                  </div>
-                ))}
-              </div>
             </div>
           </div>
 
