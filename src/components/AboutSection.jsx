@@ -1,16 +1,19 @@
 // ============================================================
 // About Section — Emerald Edition
+// Styled with Tailwind CSS (Zero external CSS dependency)
 // ============================================================
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import './AboutSection.css';
+import { Sparkles } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const tools = ['Premiere Pro', 'After Effects', 'DaVinci Resolve', 'CapCut Pro', 'Final Cut Pro', 'Motion 5', 'Adobe Audition'];
+const tools = [
+  'Premiere Pro', 'After Effects', 'DaVinci Resolve', 'CapCut Pro',
+  'Final Cut Pro', 'Motion 5', 'Adobe Audition',
+];
 
-// Brand color palette from 'emerald green.pdf' and brand card
 const palette = [
   { name: 'Brunswick', hex: '#0C4137' },
   { name: 'Forest', hex: '#0C745B' },
@@ -26,10 +29,13 @@ export default function AboutSection() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo(leftRef.current,
+      gsap.fromTo(
+        leftRef.current,
         { x: -40, opacity: 0 },
         {
-          x: 0, opacity: 1, duration: 1,
+          x: 0,
+          opacity: 1,
+          duration: 1,
           ease: 'power3.out',
           scrollTrigger: {
             trigger: sectionRef.current,
@@ -38,10 +44,13 @@ export default function AboutSection() {
         }
       );
 
-      gsap.fromTo(rightRef.current,
+      gsap.fromTo(
+        rightRef.current,
         { x: 40, opacity: 0 },
         {
-          x: 0, opacity: 1, duration: 1,
+          x: 0,
+          opacity: 1,
+          duration: 1,
           ease: 'power3.out',
           delay: 0.2,
           scrollTrigger: {
@@ -51,87 +60,112 @@ export default function AboutSection() {
         }
       );
     }, sectionRef);
+
     return () => ctx.revert();
   }, []);
 
   return (
-    <section className="about-section" id="about" ref={sectionRef}>
-      <div className="container">
-        <div className="about-inner">
-          {/* Left — Text */}
+    <section className="py-16 md:py-24 border-t border-[#E6FBF6]/10 relative" id="about" ref={sectionRef}>
+      <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          {/* Left Column — Content */}
           <div ref={leftRef} style={{ opacity: 0 }}>
-            <p className="label about-label">Who We Are</p>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#06D6A0]/10 border border-[#06D6A0]/20 text-[0.68rem] uppercase tracking-widest text-[#06D6A0] mb-4">
+              <Sparkles size={11} />
+              <span>Who We Are</span>
+            </div>
 
-            <h2 className="about-headline">
+            <h2 className="font-serif text-4xl sm:text-6xl font-light tracking-tight leading-tight text-[#E6FBF6] mb-6">
               The work<br />
-              <em>is the website.</em>
+              <em className="italic text-[#06D6A0]">is the website.</em>
             </h2>
 
-            <p className="about-body">
-              Zenerix Media is a <strong>specialist video editing agency</strong> built for modern brands,
+            <p className="text-sm sm:text-base text-[#8AA49E] leading-relaxed mb-4">
+              Zenerix Media is a <strong className="text-white font-medium">specialist video editing agency</strong> built for modern brands,
               performance marketers, and creators who understand that great editing isn't just cutting footage —
               it's pacing, kinetic rhythm, color harmony, and psychological retention.
             </p>
 
-            <p className="about-body">
+            <p className="text-sm sm:text-base text-[#8AA49E] leading-relaxed mb-6">
               We work in the quiet dark behind the scenes so your content dominates the feed.
               Upload your raw files and creative brief — receive back high-impact, polished edits
               ready to publish on time, every time.
             </p>
 
-            <div className="about-quote">
-              <p>"Less text, more motion, lots of space — the edit does the talking."</p>
+            <div className="p-5 border-l-2 border-[#06D6A0] bg-[#0E1513] rounded-r-lg mb-8">
+              <p className="font-serif text-lg italic text-[#E6FBF6]">
+                "Less text, more motion, lots of space — the edit does the talking."
+              </p>
             </div>
 
-            {/* Editing Suite */}
-            <p className="label" style={{ marginBottom: '0.6rem', marginTop: '1.8rem' }}>Production Suite</p>
-            <div className="about-tools">
-              {tools.map(tool => (
-                <span key={tool} className="tool-tag">{tool}</span>
+            {/* Editing Tools */}
+            <p className="text-xs font-semibold uppercase tracking-widest text-[#06D6A0] mb-3">
+              Production Suite
+            </p>
+            <div className="flex flex-wrap gap-2 mb-8">
+              {tools.map((tool) => (
+                <span
+                  key={tool}
+                  className="text-xs text-[#8AA49E] bg-[#141E1B] border border-[#E6FBF6]/10 px-3 py-1 rounded-md"
+                >
+                  {tool}
+                </span>
               ))}
             </div>
 
-            {/* Official Brand Palette */}
-            <div className="about-palette">
-              <p className="label" style={{ marginBottom: '0.4rem' }}>Official Palette</p>
-              <div className="palette-chips">
-                {palette.map(c => (
-                  <div key={c.hex} className="palette-chip">
-                    <span className="chip-color" style={{ backgroundColor: c.hex }} />
+            {/* Official Palette */}
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-widest text-[#06D6A0] mb-3">
+                Official Palette
+              </p>
+              <div className="flex flex-wrap gap-2.5">
+                {palette.map((c) => (
+                  <div
+                    key={c.hex}
+                    className="flex items-center gap-2 text-xs bg-[#141E1B] border border-[#E6FBF6]/10 px-3 py-1.5 rounded-md text-[#8AA49E]"
+                  >
+                    <span
+                      className="w-3 h-3 rounded-full border border-white/20"
+                      style={{ backgroundColor: c.hex }}
+                    />
                     <span>{c.name}</span>
-                    <code style={{ fontSize: '0.62rem', opacity: 0.7 }}>{c.hex}</code>
+                    <code className="text-[0.62rem] opacity-70">{c.hex}</code>
                   </div>
                 ))}
               </div>
             </div>
           </div>
 
-          {/* Right — Visual poster */}
-          <div className="about-visual" ref={rightRef} style={{ opacity: 0 }}>
-            <div className="about-card-container">
+          {/* Right Column — Visual Card */}
+          <div ref={rightRef} style={{ opacity: 0 }} className="flex justify-center">
+            <div className="relative rounded-2xl overflow-hidden border border-[#06D6A0]/20 shadow-[0_20px_50px_rgba(6,214,160,0.15)] max-w-lg group">
               <picture>
                 <source srcSet="/brand/hero-poster.webp" type="image/webp" />
                 <img
                   src="/brand/hero-poster.png"
                   alt="Zenerix Futuristic Emerald Identity"
-                  className="about-card-img"
+                  className="w-full h-auto object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                   loading="lazy"
                   decoding="async"
                   width="1122"
                   height="1402"
                 />
               </picture>
-              <div className="about-card-badge">
+              <div className="absolute bottom-0 inset-x-0 p-6 bg-gradient-to-t from-[#070A09] via-[#070A09]/80 to-transparent flex justify-between items-end">
                 <div>
-                  <div className="about-card-badge-title">ZENERIX MEDIA</div>
-                  <div className="about-card-badge-sub">Video Production Agency</div>
+                  <div className="font-serif text-xl font-normal text-white">
+                    ZENERIX MEDIA
+                  </div>
+                  <div className="text-xs uppercase tracking-widest text-[#06D6A0]">
+                    Video Production Agency
+                  </div>
                 </div>
                 <img
                   src="/brand/logo-mark.png"
                   alt="Zenerix"
                   loading="lazy"
                   decoding="async"
-                  style={{ height: '36px', filter: 'drop-shadow(0 0 10px rgba(6, 214, 160, 0.5))' }}
+                  className="h-9 max-h-9 w-auto max-w-[40px] object-contain drop-shadow-[0_0_10px_rgba(6,214,160,0.5)]"
                 />
               </div>
             </div>

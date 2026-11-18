@@ -1,33 +1,45 @@
 /* ============================================================
-   ZENERIX MEDIA — Global Styles & Design System
-   Brand Identity: Futuristic Emerald & Dark Cinema
-   Color Palette from Brand Guidelines:
-     - Brunswick Green: #0C4137
-     - Forest Emerald:  #0C745B
-     - Electric Emerald:#06D6A0 (Accent)
-     - Neon Mint:       #09D5A0
-     - Muted Sage:      #AACBC4
-     - Polar White:     #E6FBF6
-     - Dark Cinema:     #080B0A / #0D1311
+   ZENERIX MEDIA — Global Styles & Tailwind CSS Setup
    ============================================================ */
+@import "tailwindcss";
 
-/* ---- CSS Custom Properties ---- */
+@theme {
+  --color-bg: #070A09;
+  --color-bg-darker: #040605;
+  --color-surface: #0E1513;
+  --color-surface-2: #141E1B;
+  --color-surface-3: #1A2824;
+  --color-text-polar: #E6FBF6;
+  --color-text-pure: #FFFFFF;
+  --color-muted-sage: #8AA49E;
+  --color-muted-dark: #4D645E;
+  --color-line-subtle: rgba(230, 251, 246, 0.08);
+  --color-line-emerald: rgba(6, 214, 160, 0.2);
+  --color-accent-emerald: #06D6A0;
+  --color-accent-hover: #09D5A0;
+  --color-accent-brunswick: #0C4137;
+  --color-accent-forest: #0C745B;
+  --color-accent-sage: #AACBC4;
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
 :root {
   --bg: #070A09;
   --bg-darker: #040605;
   --surface: #0E1513;
   --surface-2: #141E1B;
   --surface-3: #1A2824;
-  --text: #E6FBF6;               /* Polar light */
+  --text: #E6FBF6;
   --text-pure: #FFFFFF;
-  --muted: #8AA49E;              /* Muted Sage */
+  --muted: #8AA49E;
   --muted-dark: #4D645E;
   --line: rgba(230, 251, 246, 0.08);
   --line-emerald: rgba(6, 214, 160, 0.2);
-  --accent: #06D6A0;             /* Electric Emerald Accent */
+  --accent: #06D6A0;
   --accent-hover: #09D5A0;
-  --accent-brunswick: #0C4137;   /* Brunswick Green */
-  --accent-forest: #0C745B;      /* Medium Emerald */
+  --accent-brunswick: #0C4137;
+  --accent-forest: #0C745B;
   --accent-sage: #AACBC4;
   --accent-glow: rgba(6, 214, 160, 0.3);
   --accent-glow-subtle: rgba(6, 214, 160, 0.08);
@@ -37,11 +49,8 @@
   --transition-fast: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* ---- Reset & Base ---- */
 *, *::before, *::after {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 html {
@@ -66,7 +75,6 @@ body {
   background-attachment: fixed;
 }
 
-/* ---- Typography ---- */
 h1, h2, h3, h4 {
   font-family: var(--font-serif);
   font-weight: 400;
@@ -80,55 +88,7 @@ a {
   text-decoration: none;
 }
 
-img, video {
-  max-width: 100%;
-  display: block;
-}
-
-button {
-  cursor: pointer;
-  border: none;
-  background: none;
-  font-family: inherit;
-}
-
-/* ---- Utility Classes ---- */
-.container {
-  width: 100%;
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 0 clamp(1.5rem, 5vw, 5rem);
-}
-
-.label {
-  font-family: var(--font-sans);
-  font-size: clamp(0.65rem, 1vw, 0.75rem);
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--accent);
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.label::before {
-  content: '';
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 10px var(--accent);
-}
-
-.line-divider {
-  width: 100%;
-  height: 1px;
-  background: var(--line);
-}
-
-/* ---- Custom Cursor ---- */
+/* Custom Cursor */
 #cursor {
   position: fixed;
   top: 0;
@@ -173,7 +133,7 @@ button {
   box-shadow: 0 0 24px rgba(6, 214, 160, 0.3);
 }
 
-/* ---- Scroll Bar ---- */
+/* Scroll Bar */
 ::-webkit-scrollbar {
   width: 5px;
 }
@@ -188,7 +148,7 @@ button {
   background: var(--accent-forest);
 }
 
-/* ---- WhatsApp Float ---- */
+/* WhatsApp Float */
 .whatsapp-float {
   position: fixed;
   bottom: 2rem;
@@ -217,7 +177,7 @@ button {
   fill: white;
 }
 
-/* ---- Page Loader ---- */
+/* Page Loader */
 .page-loader {
   position: fixed;
   inset: 0;
@@ -228,33 +188,6 @@ button {
   justify-content: center;
   flex-direction: column;
   gap: 1.8rem;
-}
-
-.loader-logo-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.2rem;
-}
-
-.loader-mark-img {
-  width: 72px;
-  height: auto;
-  filter: drop-shadow(0 0 20px rgba(6, 214, 160, 0.45));
-}
-
-.loader-wordmark-img {
-  height: 26px;
-  width: auto;
-  opacity: 0.95;
-}
-
-.loader-tagline {
-  font-family: var(--font-sans);
-  font-size: 0.7rem;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--accent);
 }
 
 .loader-line {
@@ -281,21 +214,11 @@ button {
   to { left: 100%; }
 }
 
-/* ---- Glow helper classes ---- */
-.emerald-glow {
-  box-shadow: 0 0 30px rgba(6, 214, 160, 0.2);
+@keyframes reelMarquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
 }
 
-.emerald-text-gradient {
-  background: linear-gradient(135deg, #FFFFFF 0%, #E6FBF6 40%, #06D6A0 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* ---- Reduced Motion ---- */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
-  }
+.animate-marquee {
+  animation: reelMarquee 25s linear infinite;
 }

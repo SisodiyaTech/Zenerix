@@ -1,210 +1,232 @@
 // ============================================================
-// Contact Section — CTA + Query Form
+// Contact Section — Showcase CTA & Direct Connect Hub
+// Styled with Tailwind CSS (Zero external CSS dependency)
 // ============================================================
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { MessageCircle, Calendar } from 'lucide-react';
+import { MessageCircle, Calendar, Mail, ArrowUpRight, Sparkles } from 'lucide-react';
 import { contact } from '../data/projects';
-import './ContactSection.css';
 
 gsap.registerPlugin(ScrollTrigger);
-
-const serviceOptions = [
-  'Short-form / Reels',
-  'Ads & Promos',
-  'Corporate & Product Videos',
-  'Podcast Editing',
-  'Motion Graphics',
-  'Other / Not sure yet',
-];
 
 export default function ContactSection() {
   const sectionRef = useRef(null);
   const ctaRef = useRef(null);
-  const [form, setForm] = useState({ name: '', email: '', phone: '', service: '', message: '' });
-  const [submitted, setSubmitted] = useState(false);
+  const cardsRef = useRef(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo(ctaRef.current,
-        { y: 60, opacity: 0 },
+      gsap.fromTo(
+        ctaRef.current,
+        { y: 50, opacity: 0 },
         {
-          y: 0, opacity: 1, duration: 1,
+          y: 0,
+          opacity: 1,
+          duration: 1,
           ease: 'power3.out',
           scrollTrigger: {
             trigger: ctaRef.current,
-            start: 'top 80%',
+            start: 'top 82%',
           },
         }
       );
 
-      gsap.fromTo('.contact-grid',
+      gsap.fromTo(
+        cardsRef.current?.children,
         { y: 40, opacity: 0 },
         {
-          y: 0, opacity: 1, duration: 0.9,
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          stagger: 0.15,
           ease: 'power3.out',
           scrollTrigger: {
-            trigger: '.contact-grid',
-            start: 'top 80%',
+            trigger: cardsRef.current,
+            start: 'top 85%',
           },
         }
       );
     }, sectionRef);
+
     return () => ctx.revert();
   }, []);
 
-  const handleChange = (e) => {
-    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // In production: send to backend/email service
-    console.log('Form submitted:', form);
-    setSubmitted(true);
-    setForm({ name: '', email: '', phone: '', service: '', message: '' });
-  };
-
   return (
-    <section className="contact-section" id="contact" ref={sectionRef}>
-      <div className="container">
-        {/* CTA Band */}
-        <div className="cta-band" ref={ctaRef} style={{ opacity: 0 }}>
-          <div className="cta-bg" />
-          <span className="cta-eyebrow">Ready to start?</span>
-          <h2 className="cta-headline">
-            Got footage?<br />
-            Let's make it <em>unforgettable.</em>
-          </h2>
-          <p className="cta-sub">Send footage, get back a polished edit — on time, every time.</p>
+    <section
+      className="py-16 md:py-24 border-t border-[#E6FBF6]/10 relative"
+      id="contact"
+      ref={sectionRef}
+    >
+      <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
+        {/* Main Showcase CTA Banner */}
+        <div
+          className="text-center py-16 sm:py-24 px-6 sm:px-12 relative overflow-hidden bg-gradient-to-b from-[#0C4137]/35 to-[#070A09]/80 border border-[#06D6A0]/20 rounded-2xl mb-12 sm:mb-16"
+          ref={ctaRef}
+          style={{ opacity: 0 }}
+        >
+          {/* Ambient Glow */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_50%,rgba(6,214,160,0.12)_0%,transparent_70%)] pointer-events-none" />
 
-          <div className="cta-actions">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#06D6A0]/10 border border-[#06D6A0]/20 text-[0.7rem] uppercase tracking-widest text-[#06D6A0] mb-5">
+            <Sparkles size={12} />
+            <span>Ready for your next production?</span>
+          </div>
+
+          <h2 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-light tracking-tight leading-tight text-[#E6FBF6] mb-4">
+            Got raw footage?<br />
+            Let's make it <em className="italic text-[#06D6A0]">unforgettable.</em>
+          </h2>
+
+          <p className="text-sm sm:text-base text-[#8AA49E] max-w-xl mx-auto leading-relaxed mb-8 sm:mb-10">
+            Direct collaboration with dedicated senior video editors. Fast turnaround, precision sound, and viral pacing.
+          </p>
+
+          <div className="flex flex-wrap gap-4 justify-center items-center">
+            <a
+              href={contact.whatsapp}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2.5 font-sans text-xs font-semibold uppercase tracking-wider text-[#070A09] bg-[#25D366] hover:bg-[#1eb956] px-7 py-3.5 rounded transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_24px_-6px_rgba(37,211,102,0.4)]"
+            >
+              <MessageCircle size={16} />
+              <span>Chat on WhatsApp</span>
+            </a>
+
+            <a
+              href={`mailto:${contact.email}`}
+              className="inline-flex items-center gap-2.5 font-sans text-xs font-medium tracking-wide text-[#E6FBF6] bg-[#141E1B] hover:bg-[#1A2824] hover:text-[#06D6A0] border border-[#E6FBF6]/10 hover:border-[#06D6A0]/30 px-7 py-3.5 rounded transition-all duration-300 hover:-translate-y-0.5"
+            >
+              <Mail size={16} />
+              <span>{contact.email}</span>
+            </a>
+
             <a
               href={contact.calendly}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-primary"
-              style={{ textDecoration: 'none', display: 'inline-flex' }}
+              className="inline-flex items-center gap-2.5 font-sans text-xs font-medium uppercase tracking-wider text-[#8AA49E] hover:text-white border border-[#E6FBF6]/10 hover:border-[#06D6A0]/30 px-6 py-3.5 rounded transition-all duration-300 hover:-translate-y-0.5"
             >
-              <Calendar size={14} />
-              Book a Call
-            </a>
-            <a href={contact.whatsapp} target="_blank" rel="noopener noreferrer" className="btn-wa">
-              <MessageCircle size={14} />
-              WhatsApp Us
+              <Calendar size={15} />
+              <span>Book Discovery Call</span>
             </a>
           </div>
         </div>
 
-        {/* Grid: Info + Form */}
-        <div className="contact-grid" style={{ opacity: 0 }}>
-          {/* Info */}
-          <div className="contact-info">
-            <h3>Or send us<br />a <em>message</em></h3>
-
-            <div className="contact-detail">
-              <div className="contact-item">
-                <span className="contact-item-label">Email</span>
-                <a href={`mailto:${contact.email}`} className="contact-item-value">
-                  {contact.email}
-                </a>
-              </div>
-              <div className="contact-item">
-                <span className="contact-item-label">WhatsApp</span>
-                <a href={contact.whatsapp} target="_blank" rel="noopener noreferrer" className="contact-item-value">
-                  {contact.whatsappNumber}
-                </a>
-              </div>
-              <div className="contact-item">
-                <span className="contact-item-label">Response Time</span>
-                <span className="contact-item-value">Within 24 hours</span>
-              </div>
+        {/* Direct Connect Hub Cards */}
+        <div
+          className="grid grid-cols-1 md:grid-cols-3 gap-6"
+          ref={cardsRef}
+        >
+          {/* Card 1: WhatsApp */}
+          <a
+            href={contact.whatsapp}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group bg-[#0E1513] border border-[#E6FBF6]/10 hover:border-[#06D6A0]/30 rounded-xl p-7 flex flex-col transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_16px_36px_-12px_rgba(6,214,160,0.12)] text-inherit"
+          >
+            <div className="flex justify-between items-center mb-6">
+              <span className="w-11 h-11 rounded-lg flex items-center justify-center bg-[#25D366]/10 text-[#25D366] border border-[#25D366]/20">
+                <MessageCircle size={22} />
+              </span>
+              <ArrowUpRight
+                size={18}
+                className="text-[#8AA49E] group-hover:text-[#06D6A0] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"
+              />
             </div>
+            <div className="flex flex-col flex-grow">
+              <span className="text-[0.65rem] font-medium tracking-widest uppercase text-[#06D6A0] mb-1.5">
+                Instant Messaging
+              </span>
+              <h3 className="font-serif text-2xl font-normal text-[#E6FBF6] mb-2">
+                WhatsApp Direct
+              </h3>
+              <p className="text-xs sm:text-sm text-[#8AA49E] leading-relaxed mb-6">
+                Fastest way to get in touch. Share sample references, ask questions, or request availability.
+              </p>
+              <span className="text-sm font-medium text-white pt-4 border-t border-[#E6FBF6]/10 mt-auto">
+                {contact.whatsappNumber}
+              </span>
+            </div>
+          </a>
 
-            <div className="contact-socials">
-              <a href={contact.instagram} target="_blank" rel="noopener noreferrer" className="social-link">Instagram</a>
-              <a href={contact.linkedin} target="_blank" rel="noopener noreferrer" className="social-link">LinkedIn</a>
-              <a href={contact.youtube} target="_blank" rel="noopener noreferrer" className="social-link">YouTube</a>
+          {/* Card 2: Email Direct */}
+          <a
+            href={`mailto:${contact.email}`}
+            className="group bg-[#0E1513] border border-[#E6FBF6]/10 hover:border-[#06D6A0]/30 rounded-xl p-7 flex flex-col transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_16px_36px_-12px_rgba(6,214,160,0.12)] text-inherit"
+          >
+            <div className="flex justify-between items-center mb-6">
+              <span className="w-11 h-11 rounded-lg flex items-center justify-center bg-[#06D6A0]/10 text-[#06D6A0] border border-[#06D6A0]/20">
+                <Mail size={22} />
+              </span>
+              <ArrowUpRight
+                size={18}
+                className="text-[#8AA49E] group-hover:text-[#06D6A0] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"
+              />
+            </div>
+            <div className="flex flex-col flex-grow">
+              <span className="text-[0.65rem] font-medium tracking-widest uppercase text-[#06D6A0] mb-1.5">
+                Project Briefs
+              </span>
+              <h3 className="font-serif text-2xl font-normal text-[#E6FBF6] mb-2">
+                Direct Email
+              </h3>
+              <p className="text-xs sm:text-sm text-[#8AA49E] leading-relaxed mb-6">
+                Send your script, project details, drive links, or commercial scopes directly to our inbox.
+              </p>
+              <span className="text-sm font-medium text-white pt-4 border-t border-[#E6FBF6]/10 mt-auto">
+                {contact.email}
+              </span>
+            </div>
+          </a>
+
+          {/* Card 3: Social Showcase */}
+          <div className="bg-[#0E1513] border border-[#E6FBF6]/10 rounded-xl p-7 flex flex-col">
+            <div className="flex justify-between items-center mb-6">
+              <span className="w-11 h-11 rounded-lg flex items-center justify-center bg-white/5 text-[#E6FBF6] border border-white/10">
+                <Sparkles size={22} />
+              </span>
+            </div>
+            <div className="flex flex-col flex-grow">
+              <span className="text-[0.65rem] font-medium tracking-widest uppercase text-[#06D6A0] mb-1.5">
+                Follow Along
+              </span>
+              <h3 className="font-serif text-2xl font-normal text-[#E6FBF6] mb-2">
+                Social Channels
+              </h3>
+              <p className="text-xs sm:text-sm text-[#8AA49E] leading-relaxed mb-6">
+                See our latest editing breakdowns, client milestones, and behind-the-scenes techniques.
+              </p>
+              <div className="flex flex-wrap gap-2 pt-4 border-t border-[#E6FBF6]/10 mt-auto">
+                <a
+                  href={contact.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-[#8AA49E] hover:text-[#06D6A0] bg-[#141E1B] hover:bg-[#1A2824] border border-[#E6FBF6]/10 hover:border-[#06D6A0]/30 px-3 py-1.5 rounded transition-all"
+                >
+                  Instagram
+                </a>
+                <a
+                  href={contact.youtube}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-[#8AA49E] hover:text-[#06D6A0] bg-[#141E1B] hover:bg-[#1A2824] border border-[#E6FBF6]/10 hover:border-[#06D6A0]/30 px-3 py-1.5 rounded transition-all"
+                >
+                  YouTube
+                </a>
+                <a
+                  href={contact.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-[#8AA49E] hover:text-[#06D6A0] bg-[#141E1B] hover:bg-[#1A2824] border border-[#E6FBF6]/10 hover:border-[#06D6A0]/30 px-3 py-1.5 rounded transition-all"
+                >
+                  LinkedIn
+                </a>
+              </div>
             </div>
           </div>
-
-          {/* Form */}
-          <form className="contact-form" onSubmit={handleSubmit}>
-            {submitted ? (
-              <div className="form-success">
-                ✓ Thanks! We'll reply within 24 hours.
-              </div>
-            ) : (
-              <>
-                <div className="form-row">
-                  <div className="form-group">
-                    <label className="form-label" htmlFor="name">Name *</label>
-                    <input
-                      id="name" name="name" type="text" required
-                      className="form-input"
-                      placeholder="Your name"
-                      value={form.name} onChange={handleChange}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label" htmlFor="email">Email *</label>
-                    <input
-                      id="email" name="email" type="email" required
-                      className="form-input"
-                      placeholder="your@email.com"
-                      value={form.email} onChange={handleChange}
-                    />
-                  </div>
-                </div>
-
-                <div className="form-row">
-                  <div className="form-group">
-                    <label className="form-label" htmlFor="phone">Phone / WhatsApp</label>
-                    <input
-                      id="phone" name="phone" type="tel"
-                      className="form-input"
-                      placeholder="+91 ..."
-                      value={form.phone} onChange={handleChange}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label" htmlFor="service">Service Needed *</label>
-                    <select
-                      id="service" name="service" required
-                      className="form-select"
-                      value={form.service} onChange={handleChange}
-                    >
-                      <option value="">Select a service</option>
-                      {serviceOptions.map(opt => (
-                        <option key={opt} value={opt}>{opt}</option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                <div className="form-group">
-                  <label className="form-label" htmlFor="message">Message</label>
-                  <textarea
-                    id="message" name="message"
-                    className="form-textarea"
-                    placeholder="Tell us about your project — what do you need edited? What's the vibe?"
-                    value={form.message} onChange={handleChange}
-                  />
-                </div>
-
-                {/* Honeypot spam protection */}
-                <input type="text" name="_trap" style={{ display: 'none' }} tabIndex={-1} />
-
-                <button type="submit" className="form-submit">
-                  Send Message
-                </button>
-              </>
-            )}
-          </form>
         </div>
       </div>
     </section>
   );
 }
-

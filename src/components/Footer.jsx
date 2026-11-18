@@ -1,12 +1,11 @@
 // ============================================================
 // Footer Component — Emerald Edition
+// Styled with Tailwind CSS (Zero external CSS dependency)
 // ============================================================
 import { contact } from '../data/projects';
-import './Footer.css';
 
 const quickLinks = [
   { label: 'Work Portfolio', href: '#work' },
-  { label: 'Craft & Grading', href: '#comparison' },
   { label: 'Editing Services', href: '#services' },
   { label: 'Workflow Process', href: '#process' },
   { label: 'Agency Philosophy', href: '#about' },
@@ -21,8 +20,6 @@ const socials = [
 ];
 
 export default function Footer() {
-  const year = new Date().getFullYear();
-
   const handleNav = (e, href) => {
     e.preventDefault();
     const target = document.querySelector(href);
@@ -30,35 +27,41 @@ export default function Footer() {
   };
 
   return (
-    <footer className="footer">
-      <div className="container">
-        <div className="footer-inner">
+    <footer className="pt-16 pb-12 border-t border-[#E6FBF6]/10 relative bg-[#070A09]">
+      <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 sm:gap-16 pb-14 border-b border-[#E6FBF6]/10">
           {/* Brand */}
-          <div className="footer-brand">
-            <div className="footer-brand-logos">
+          <div className="md:col-span-2 max-w-md">
+            <div className="flex items-center gap-2.5 mb-5">
               <img
                 src="/brand/logo-mark.png"
                 alt="Zenerix Mark"
-                className="footer-logo-mark"
+                className="h-8 max-h-8 w-auto max-w-[34px] object-contain drop-shadow-[0_0_10px_rgba(6,214,160,0.35)]"
               />
               <img
                 src="/brand/logo-wordmark.png"
                 alt="Zenerix"
-                className="footer-logo-wordmark"
+                className="h-[18px] max-h-[18px] w-auto max-w-[110px] object-contain opacity-95"
               />
             </div>
-            <p className="footer-tagline">
+            <p className="text-sm text-[#8AA49E] leading-relaxed">
               Premium video editing agency for brands, creators, and marketers who demand cinematic retention.
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <p className="footer-col-title">Navigation</p>
-            <ul className="footer-links">
-              {quickLinks.map(link => (
+            <p className="text-xs font-semibold uppercase tracking-widest text-[#06D6A0] mb-5">
+              Navigation
+            </p>
+            <ul className="flex flex-col gap-3 list-none">
+              {quickLinks.map((link) => (
                 <li key={link.label}>
-                  <a href={link.href} onClick={(e) => handleNav(e, link.href)}>
+                  <a
+                    href={link.href}
+                    onClick={(e) => handleNav(e, link.href)}
+                    className="text-sm text-[#8AA49E] hover:text-[#E6FBF6] transition-colors"
+                  >
                     {link.label}
                   </a>
                 </li>
@@ -66,31 +69,46 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Socials */}
+          {/* Socials & Direct Contact */}
           <div>
-            <p className="footer-col-title">Connect</p>
-            <ul className="footer-links">
-              {socials.map(s => (
+            <p className="text-xs font-semibold uppercase tracking-widest text-[#06D6A0] mb-5">
+              Connect
+            </p>
+            <ul className="flex flex-col gap-3 list-none">
+              {socials.map((s) => (
                 <li key={s.label}>
-                  <a href={s.href} target="_blank" rel="noopener noreferrer">
+                  <a
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-[#8AA49E] hover:text-[#06D6A0] transition-colors"
+                  >
                     {s.label}
                   </a>
                 </li>
               ))}
-              <li>
-                <a href={`mailto:${contact.email}`}>{contact.email}</a>
+              <li className="pt-2">
+                <a
+                  href={`mailto:${contact.email}`}
+                  className="text-sm text-[#E6FBF6] hover:text-[#06D6A0] transition-colors font-medium"
+                >
+                  {contact.email}
+                </a>
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="footer-bottom">
-          <p className="footer-copy">
-            © {year} Zenerix Media. All rights reserved.
-          </p>
-          <div className="footer-legal">
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
+        {/* Footer Bottom */}
+        <div className="pt-8 flex flex-wrap justify-between items-center gap-4 text-xs text-[#8AA49E]">
+          <p>© 2026 Zenerix Media. All rights reserved.</p>
+          <div className="flex gap-6">
+            <a href="#" className="hover:text-[#E6FBF6] transition-colors">
+              Privacy Policy
+            </a>
+            <a href="#" className="hover:text-[#E6FBF6] transition-colors">
+              Terms of Service
+            </a>
           </div>
         </div>
       </div>

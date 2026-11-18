@@ -8,8 +8,6 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 
-import './App.css';
-
 // Above-the-fold critical components (loaded immediately)
 import PageLoader from './components/PageLoader';
 import CustomCursor from './components/CustomCursor';
@@ -23,7 +21,6 @@ const ReelBand = lazy(() => import('./components/ReelBand'));
 const StatsStrip = lazy(() => import('./components/StatsStrip'));
 const HScrollGallery = lazy(() => import('./components/HScrollGallery'));
 const WorkSection = lazy(() => import('./components/WorkSection'));
-const BeforeAfter = lazy(() => import('./components/BeforeAfter'));
 const AboutSection = lazy(() => import('./components/AboutSection'));
 const ServicesSection = lazy(() => import('./components/ServicesSection'));
 const ProcessSection = lazy(() => import('./components/ProcessSection'));
@@ -103,7 +100,7 @@ export default function App() {
       <WhatsAppFloat />
 
       {/* 4. Main Site */}
-      <div className="App">
+      <div className="min-h-screen">
         <Navbar />
 
         <main>
@@ -125,11 +122,6 @@ export default function App() {
 
           <Suspense fallback={<SectionPlaceholder minHeight="700px" />}>
             <WorkSection />
-          </Suspense>
-
-          {/* Interactive Before / After Transformation Slider (Blueprint 4.6) */}
-          <Suspense fallback={<SectionPlaceholder minHeight="550px" />}>
-            <BeforeAfter />
           </Suspense>
 
           <Suspense fallback={<SectionPlaceholder minHeight="60px" />}>
