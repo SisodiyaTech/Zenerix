@@ -7,7 +7,6 @@ import Hero from '../components/Hero';
 // Below-the-fold components
 const ReelBand = lazy(() => import('../components/ReelBand'));
 const StatsStrip = lazy(() => import('../components/StatsStrip'));
-const HScrollGallery = lazy(() => import('../components/HScrollGallery'));
 const AboutSection = lazy(() => import('../components/AboutSection'));
 const ServicesSection = lazy(() => import('../components/ServicesSection'));
 const ProcessSection = lazy(() => import('../components/ProcessSection'));
@@ -38,11 +37,6 @@ export default function HomePage({ onWatchShowreel }) {
       {/* Stats Counter & Clients */}
       <Suspense fallback={<SectionPlaceholder minHeight="200px" />}>
         <StatsStrip />
-      </Suspense>
-
-      {/* Featured Projects Carousel (With Link to Full Work Page) */}
-      <Suspense fallback={<SectionPlaceholder minHeight="500px" />}>
-        <HScrollGallery />
       </Suspense>
 
       {/* Marquee Reel Band Reverse */}
