@@ -5,6 +5,7 @@ import { lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Sparkles } from 'lucide-react';
 import WorkSection from '../components/WorkSection';
+import { projects } from '../data/projects';
 
 const ContactSection = lazy(() => import('../components/ContactSection'));
 
@@ -35,23 +36,31 @@ export default function WorkPage() {
             </Link>
           </div>
 
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#06D6A0]/10 border border-[#06D6A0]/20 text-[0.7rem] uppercase tracking-widest text-[#06D6A0] mb-4">
-              <Sparkles size={12} />
-              <span>Full Video Showcase</span>
+          <div className="flex flex-wrap items-end justify-between gap-6">
+            <div className="max-w-3xl">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#06D6A0]/10 border border-[#06D6A0]/20 text-[0.7rem] uppercase tracking-widest text-[#06D6A0] mb-4">
+                <Sparkles size={12} />
+                <span>Full Video Showcase</span>
+              </div>
+              <h1 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-light tracking-tight text-[#E6FBF6] mb-4">
+                Selected <em className="italic text-[#06D6A0]">Work & Demos</em>
+              </h1>
+              <p className="text-sm sm:text-base text-[#8AA49E] leading-relaxed">
+                Explore our complete client work archive across widescreen cinema and high-retention short-form reels. Every project is cut, paced, and graded for maximum audience impact.
+              </p>
             </div>
-            <h1 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-light tracking-tight text-[#E6FBF6] mb-4">
-              Selected <em className="italic text-[#06D6A0]">Work & Demos</em>
-            </h1>
-            <p className="text-sm sm:text-base text-[#8AA49E] leading-relaxed">
-              Explore our complete client work archive across widescreen cinema and high-retention short-form reels. Every project is cut, paced, and graded for maximum audience impact.
-            </p>
+
+            <div className="flex items-center">
+              <span className="text-xs font-mono font-medium uppercase tracking-widest px-4 py-2 border border-[#06D6A0]/20 rounded-full bg-[#0E1513]/80 text-[#06D6A0] shadow-[0_0_15px_rgba(6,214,160,0.15)]">
+                {projects.length} Total Demos
+              </span>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Complete Categorized Work Section */}
-      <WorkSection />
+      {/* Complete Categorized Work Section (Single clean header above) */}
+      <WorkSection showHeader={false} />
 
       {/* Contact Hub */}
       <Suspense fallback={<SectionPlaceholder minHeight="400px" />}>

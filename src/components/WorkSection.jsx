@@ -202,12 +202,13 @@ function CategorySection({ category, formatAspect, onPlay }) {
   );
 }
 
-export default function WorkSection() {
+export default function WorkSection({ showHeader = true }) {
   const sectionRef = useRef(null);
   const titleRef = useRef(null);
   const [modalProject, setModalProject] = useState(null);
 
   useEffect(() => {
+    if (!showHeader || !titleRef.current) return;
     const ctx = gsap.context(() => {
       gsap.fromTo(
         titleRef.current,
@@ -226,7 +227,7 @@ export default function WorkSection() {
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [showHeader]);
 
   const getModalIndex = () =>
     projects.findIndex((p) => p.fileId === modalProject?.fileId);
@@ -250,33 +251,39 @@ export default function WorkSection() {
 
   return (
     <>
-      <section className="py-16 md:py-24 relative" id="work" ref={sectionRef}>
+      <section
+        className={`${showHeader ? 'py-16 md:py-24' : 'pt-8 md:pt-12 pb-16 md:pb-24'} relative`}
+        id="work"
+        ref={sectionRef}
+      >
         <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
-          {/* Main Showcase Header */}
-          <div
-            className="flex flex-wrap items-end justify-between gap-6 mb-8"
-            ref={titleRef}
-            style={{ opacity: 0 }}
-          >
-            <div className="max-w-2xl">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#06D6A0]/10 border border-[#06D6A0]/20 text-[0.7rem] uppercase tracking-widest text-[#06D6A0] mb-4">
-                <Sparkles size={12} />
-                <span>Curated Client Portfolio</span>
+          {/* Main Showcase Header (rendered only when showHeader is true) */}
+          {showHeader && (
+            <div
+              className="flex flex-wrap items-end justify-between gap-6 mb-8"
+              ref={titleRef}
+              style={{ opacity: 0 }}
+            >
+              <div className="max-w-2xl">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#06D6A0]/10 border border-[#06D6A0]/20 text-[0.7rem] uppercase tracking-widest text-[#06D6A0] mb-4">
+                  <Sparkles size={12} />
+                  <span>Curated Client Portfolio</span>
+                </div>
+                <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-light tracking-tight leading-tight text-[#E6FBF6] mb-3">
+                  Production <em className="italic text-[#06D6A0]">Library</em>
+                </h2>
+                <p className="text-sm sm:text-base text-[#8AA49E] leading-relaxed">
+                  Browse our complete production library organized by format and genre — from high-retention vertical reels to cinematic widescreen master films.
+                </p>
               </div>
-              <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-light tracking-tight leading-tight text-[#E6FBF6] mb-3">
-                Selected <em className="italic text-[#06D6A0]">Work & Demos</em>
-              </h2>
-              <p className="text-sm sm:text-base text-[#8AA49E] leading-relaxed">
-                Browse our complete production library organized by format and genre — from high-retention vertical reels to cinematic widescreen master films.
-              </p>
-            </div>
 
-            <div className="flex items-center">
-              <span className="text-xs font-medium uppercase tracking-widest px-4 py-2 border border-[#06D6A0]/20 rounded bg-[#0E1513]/80 text-[#06D6A0]">
-                {projects.length} Total Demos
-              </span>
+              <div className="flex items-center">
+                <span className="text-xs font-mono font-medium uppercase tracking-widest px-4 py-2 border border-[#06D6A0]/20 rounded-full bg-[#0E1513]/80 text-[#06D6A0] shadow-[0_0_15px_rgba(6,214,160,0.15)]">
+                  {projects.length} Total Demos
+                </span>
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Quick Jump Bar */}
           <nav
